@@ -47,3 +47,5 @@ Queremos agradecer a los docentes y ayudantes de la cátedra, así como a la uni
 
 - [Diego Santellán](https://www.linkedin.com/in/diego-santellan/)
 - [Lis Medina](https://www.linkedin.com/in/lis-medina/)
+
+
