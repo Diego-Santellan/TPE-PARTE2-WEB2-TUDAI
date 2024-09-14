@@ -43,7 +43,7 @@ Estos atributos y relaciones permiten modelar la relación entre los dueños y s
 
 Queremos agradecer a los docentes y ayudantes de la cátedra, así como a la universidad pública por su apoyo.
 
-## Autores
+## Integrantes
 
 - [Diego Santellán](https://www.linkedin.com/in/diego-santellan/)
 - [Lis Medina](https://www.linkedin.com/in/lis-medina/)
