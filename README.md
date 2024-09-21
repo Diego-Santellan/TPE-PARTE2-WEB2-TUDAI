@@ -16,28 +16,28 @@ Las entidades principales de la base de datos son **propiedades** y **dueños**.
 La relación entre estas tablas es de **1 a N**, lo que significa que un dueño puede tener múltiples propiedades, pero una propiedad solo puede pertenecer a un dueño.
 
 ### Atributos de la tabla `duenio`:
-- `id_duenio`: `int(11)` (Primary key)
-- `nombre`: `varchar(50)`
-- `telefono`: `varchar(20)`
+- `id_owner`: `int(11)` (Primary key)
+- `name`: `varchar(50)`
+- `phone`: `varchar(20)`
 - `email`: `varchar(80)`
 
 ### Atributos de la tabla `propiedad`:
-- `id_propiedad`: `int(11)` (Primary key)
-- `tipo`: `varchar(20)`
-- `zona`: `varchar(45)`
-- `precio`: `decimal(10,0)`
-- `descripcion`: `varchar(500)`
-- `modalidad`: `varchar(20)`
-- `estado`: `varchar(20)`
-- `localidad`: `varchar(45)`
-- `id_duenio`: `int(11)` (Foreign key que referencia a la tabla `duenio`)
+- `id_property`: `int(11)` (Primary key)
+- `type`: `varchar(20)`
+- `zone`: `varchar(45)`
+- `price`: `decimal(10,0)`
+- `description`: `varchar(500)`
+- `mode`: `varchar(20)`
+- `status`: `varchar(20)`
+- `city`: `varchar(45)`
+- `id_owner`: `int(11)` (Foreign key que referencia a la tabla `duenio`)
 
 Estos atributos y relaciones permiten modelar la relación entre los dueños y sus propiedades en la base de datos.
 
 ## Diagrama de Datos
 
-![Modelo Entidad-Relación](./images/mer.png)
-![Modelo Entidad-Relación Alternativo](./images/modeloentidadrelacion.png)
+![Modelo Entidad-Relación](./images/modeloentidadrelacion.png)
+![Modelo Entidad-Relación Alternativo](./images/alternativo.png)
 
 ## Agradecimientos
 
