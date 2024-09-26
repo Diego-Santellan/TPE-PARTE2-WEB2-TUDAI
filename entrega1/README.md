@@ -2,9 +2,15 @@
 
 Este proyecto consiste en el diseño y desarrollo de un sitio web para mostrar y administrar una base de datos relacional de una inmobiliaria. El objetivo es gestionar propiedades inmobiliarias y permitir la visualización de las mismas.
 
+Para la segunda etapa del trabajo, se dió continuidad al desarrollo del sitio web dinámico basado en el modelo de datos propuesto en la primera entrega.
+
 ### Funcionalidades:
 - Los **administradores** podrán **crear**, **actualizar**, **borrar** y **eliminar** propiedades.
 - Los **usuarios** tendrán acceso únicamente a la **visualización** de las propiedades.
+
+
+
+### Requerimientos Funcionales:
 
 ## Modelo de Datos
 
@@ -47,3 +53,6 @@ Queremos agradecer a los docentes y ayudantes de la cátedra, así como a la uni
 
 - [Diego Santellán](https://www.linkedin.com/in/diego-santellan/)
 - [Lis Medina](https://www.linkedin.com/in/lis-medina/)
+
+
+ruta : http://localhost/inmobiliaria/ 
