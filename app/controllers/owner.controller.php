@@ -46,18 +46,14 @@ class OwnerController
         // chequear si existe lo que se quiere borrar 
         if (!$owner) { //no existe ,retorna null
             return $this->view->showError("No Existe el dueño con el id:. $id .");
-        } else if ($this->model->HasPropierties($id)) { //buscar si el dueño tiene propiedades
+        } else if ($this->model->HasProperties($id)) { //buscar si el dueño tiene propiedades
             return $this->view->showError("No es posible eliminar si el dueño tiene propiedades");
         }
-
+        // no se puede borrar un duenio que tenga propiedades: ebido a una restricción de clave foránea en la db:eliminar una fila de la tabla duenio que está siendo referenciada en la tabla propiedad. La restricción de clave foránea impide la eliminación o actualización de un registro de la tabla duenio porque existen propiedades en la tabla propiedad que dependen de ese registro (id_owner)
 
         $this->model->delete($id);
         header('Location: ' . BASE_URL); /* PARA REDIRIJIR AL HOME UNA VEZ ELIMINADO EL DUEÑO */
-
-        // return  $this->getAllOwners(); 
-
-        // mando los dueños a la vista 
-        return $this->view->showOwners($owner);/* aca si el duenio no se puede borar por algun motivo se debe informar, y en caso de que se borre se debe recargar la pagina */
+        exit();
     }
 
     public function updateOwner($id)
@@ -213,5 +209,4 @@ class OwnerController
             return $this->view->showError("Se esperaba se usara el método POST");
         }
     }
-
 }

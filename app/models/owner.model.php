@@ -51,7 +51,7 @@ class OwnerModel extends ModelConectDB
 
         return $id;
     }
-    public function HasPropierties($id)
+    public function HasProperties($id)
     {
         // 2. Ejecuto la consulta insertar registros de una tabla en 2 pasos apra evitar la inyeccion de datos          
         $query = $this->db->prepare('SELECT * FROM propiedad WHERE id_owner = ?');
@@ -60,9 +60,9 @@ class OwnerModel extends ModelConectDB
         $query->execute([$id]);
     
         
-        $propierties = $query->fetchAll(PDO::FETCH_OBJ);
+        $properties = $query->fetchAll(PDO::FETCH_OBJ);
 
-        if(count($propierties)>0){
+        if(count($properties)>0){
             return true;
         } else{
             return false;
