@@ -1,20 +1,16 @@
+/* General Styles  */
 *{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* HOME */
-
-.table-header {
-    background-color: #007bff;
-    color: white;
+main{
+    min-height: 60vh;
 }
-.table tbody tr:hover {
-    background-color: #f1f1f1;
-}
-
 
 .errorMessage{
     color: red;
+    margin-top: 50px;
+    text-align:center ;
 }

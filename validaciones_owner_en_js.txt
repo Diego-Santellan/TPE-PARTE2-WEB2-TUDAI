@@ -7,6 +7,11 @@ document.querySelector('#formOwner').addEventListener('submit', function(e) {
     const phone = formData.get('phone').trim();
     const email = formData.get('email').trim();
 
+Requierdo 
+Longitud máxima: 50 caracteres.
+Expresión regular: Debe admitir letras (mayúsculas y minúsculas) y espacios.
+
+
     // Validar que el nombre no esté vacío
     if (!checkRequired(name)) {
         document.querySelector('#nameError').innerText="El campo Nombre es requerido";

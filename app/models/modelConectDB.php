@@ -2,13 +2,11 @@
 require_once './config.php';
 // crea una conexión a MySQL con los datos definidos en las constantes MYSQL_HOST, MYSQL_DB, MYSQL_USER, y MYSQL_PASS de config.php.
 
-// Para asegurarte de que todos los modelos compartan la misma conexión a la base de datos, puedes  crear una clase padre para los modelos. Esta clase padre contendrá la conexión a la base de datos, y todos los modelos específicos heredarán de ella. 
-class ModelConectDB
-{ //clase padre
+// Para asegurarte de que todos los modelos compartan la misma conexión a la base de datos, se  crea una clase padre para los modelos que contiene la conexión a la base de datos, y todos los modelos específicos heredarán de ella. 
+class ModelConectDB { //clase padre
     protected $db; //atributo db que guarla la url para la conecxion a la DB
 
-    public function __construct()
-    {
+    public function __construct() {
         try {
 
             // 1. abro la conexion a la DB 
@@ -21,8 +19,7 @@ class ModelConectDB
             // Establecer el modo de error de PDO a excepción  
             $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (PDOException $e) { 
-            //$e->getMessage(): Este es un método nativo de la clase Exception (de la cual PDOException hereda). Este método devuelve un mensaje de error que describe la excepción.Uso: Proporciona información específica sobre lo que salió mal, como un error de conexión, un error en la consulta SQL, etc.
-            // Manejo de errores de conexión
+            //$e->getMessage(): es un método nativo de la clase Exception (de la cual PDOException hereda). Este método devuelve un mensaje de error que describe la excepción. Proporciona información específica sobre lo que salió mal, como un error de conexión, un error en la consulta SQL. 
             echo "Error de conexión: " . $e->getMessage();
             exit; // Termina la ejecución del script en caso de error
         }

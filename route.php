@@ -15,6 +15,7 @@ $params = explode('/', $action);
 
 switch ($params[0]) {
 
+        // // lado N de la relacion: duenio . 
     case 'getAllOwners':
         $controller = new OwnerController();
         $controller->getAllOwners();
@@ -24,13 +25,23 @@ switch ($params[0]) {
         $controller = new OwnerController();
         $controller->getOwner($params[1]);
         break;
-    
-    case 'deleteOwner':
+
+    case 'deleteOwner': /* Realiazar una accion como recargar la pagina al eliminar un elemento... en caso de que no se pueda avisar y detallar*/
         $controller = new OwnerController();
         $controller->deleteOwner($params[1]);
         break;
 
-        default:
+    case 'updateOwner':
+        $controller = new OwnerController();
+        $controller->updateOwner($params[1]);
+        break;
+
+    case 'addOwner':
+        $controller = new OwnerController();
+        $controller->addOwner();
+        break;
+
+    default:
         echo "404 Page Not Found";
         header("HTTP/1.1 404 Not Found");
         break;

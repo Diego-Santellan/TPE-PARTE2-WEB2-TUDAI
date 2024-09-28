@@ -56,3 +56,10 @@ Queremos agradecer a los docentes y ayudantes de la cátedra, así como a la uni
 
 
 ruta : http://localhost/inmobiliaria/ 
+
+
+## Importar la DB
+Importar el archivo `inmobiliaria.sql` dentro de PHPMyAdmin para tener la base de datos completa.
+
+
+

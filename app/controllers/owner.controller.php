@@ -1,49 +1,217 @@
-<?php 
+<?php
 
 /* REQUERMIMOS MODELO Y VISTA : el controler es un pasamanos*/
 require_once './app/models/owner.model.php';
 require_once './app/views/owner.view.php';
 
 //CLASE --> cada componente del MVC es un clase y los metodos lógicos van dentro de cada clase 
-Class OwnerController{
+class OwnerController
+{
     // ATRIBUTOS PRIVADOS
     private $model;
     private $view;
-    
+
     // CONSTRUCTOR
-    public function __construct(){
+    public function __construct()
+    {
         $this->model = new OwnerModel();
         $this->view = new  OwnerView();
     }
-    
+
     // MÉTODOS O FUNCIONES DE LA CLASE  
-    public function getAllOwners(){
+    public function getAllOwners()
+    {
         // obtengo los dueños de la DB 
         $owners = $this->model->getAll();
-        
+
         // mando los dueños a la vista 
         return $this->view->showOwners($owners);
     }
-    public function getOwner($id){/* no lo pedia, pero lo hicimos. */
+
+    public function getOwner($id)
+    {/* no lo pedia, pero lo hicimos. */
         // obtengo un dueños de la DB 
         $owner = $this->model->get($id);
-        
+
         // mando los dueños a la vista 
         return $this->view->showOwner($owner);
     }
 
-    public function deleteOwner($id){/* no lo pedia, pero lo hicimos. */
-        // obtengo un dueños de la DB 
+    public function deleteOwner($id)
+    {/* no lo pedia, pero lo hicimos. */
+
+        // obtengo un dueño de la DB 
         $owner = $this->model->get($id);
-        
-        if(!$owner){
+
+        // chequear si existe lo que se quiere borrar 
+        if (!$owner) { //no existe ,retorna null
             return $this->view->showError("No Existe el dueño con el id:. $id .");
+        } else if ($this->model->HasPropierties($id)) { //buscar si el dueño tiene propiedades
+            return $this->view->showError("No es posible eliminar si el dueño tiene propiedades");
         }
 
+
         $this->model->delete($id);
-        header('Location'.BASE_URL); /* PARA REDIRIJIR AL HOME UNA VEZ ELIMINADO EL DUEÑO */
-        
+        header('Location: ' . BASE_URL); /* PARA REDIRIJIR AL HOME UNA VEZ ELIMINADO EL DUEÑO */
+
+        // return  $this->getAllOwners(); 
+
         // mando los dueños a la vista 
-        return $this->view->showOwners($owner);
+        return $this->view->showOwners($owner);/* aca si el duenio no se puede borar por algun motivo se debe informar, y en caso de que se borre se debe recargar la pagina */
     }
+
+    public function updateOwner($id)
+    {
+        $isValid = true;
+
+        // obtengo un dueño de la DB 
+        $owner = $this->model->get($id);
+        // chequear si existe lo que se quiere modificar  
+        if (!$owner) {
+            return $this->view->showError("No Existe el dueño con el id: $id .");
+        }
+
+        // tomar datos del form ingresados por el usuario y validarlos , funcion importante del contoller 
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+            $name = $_POST['nameOwnerEdit'];
+            $phone = $_POST['phoneOwnerEdit'];
+            $email = $_POST['emailOwnerEdit'];
+
+            // VALIDACIONES NAME
+            // Verificar si el campo existe, no es null, ni vacío
+            if (!isset($name) || is_null($name) || trim($name) === '') {
+                $isValid = false;
+                return $this->view->showError(mjsError: "El campo Nombre es requerido");
+            }
+
+            //Validar que el nombre no exceda los 50 caracteres
+            if (strlen($name) > 50) {
+                $isValid = false;
+                return $this->view->showError(mjsError: "El nombre no puede exceder los 50 caracteres");
+            }
+
+            // Validar que solo contenga letras y espacios
+            if (!preg_match("/^[A-Za-z\s]+$/", $name)) {
+                $isValid = false;
+                return $this->view->showError(mjsError: "El nombre solo puede contener letras y espacios");
+            }
+
+            // VALIDACIONES PHONE
+            // Verificar si el campo existe, no es null, ni vacío
+            if (!isset($phone) || is_null($phone) || trim($phone) === '') {
+                $isValid = false;
+                return $this->view->showError(mjsError: "El campo teléfono es requerido");
+            }
+
+            //Validar que el teléfono no exceda los 20 caracteres
+            if (strlen($phone) > 20) {
+                $isValid = false;
+                return $this->view->showError(mjsError: "El campo teléfono no puede exceder los 20 caracteres");
+            }
+
+            // VALIDACIONES EMAIL
+            // Verificar si el campo existe, no es null, ni vacío
+            if (!isset($email) || is_null($email) || trim($email) === '') {
+                $isValid = false;
+                return $this->view->showError(mjsError: "El campo Email es requerido");
+            }
+
+            // Validar que el nombre no exceda los 80 caracteres
+            if (strlen($email) > 80) {
+                $isValid = false;
+                return $this->view->showError(mjsError: "El campo Email no puede exceder los 80 caracteres");
+            }
+
+            // Validar formato email 
+            if (!preg_match("/^[\w\.\-]+@[a-zA-Z\d\-]+\.[a-zA-Z]{2,}$/", $email)) {
+                $isValid = false;
+                return $this->view->showError(mjsError: "El Email no tiene formato válido");
+            }
+
+            if ($isValid) { // si los datos del usuario pasaron todas las validaciones 
+                $this->model->update($id, $name, $phone, $email);
+                header('Location: ' . BASE_URL);
+                exit();
+            }
+
+            return  $this->getAllOwners();
+        } else {
+            return $this->view->showError("Se esperaba se usara el método POST");
+        }
+    }
+
+
+    public function addOwner()
+    {
+        $isValid = true;
+
+        // tomar datos del form ingresados por el usuario y validarlos , funcion importante del contoller 
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+            $name = $_POST['nameOwnerAdd'];
+            $phone = $_POST['phoneOwnerAdd'];
+            $email = $_POST['emailOwnerAdd'];
+
+            // VALIDACIONES NAME
+            // Verificar si el campo existe, no es null, ni vacío
+            if (!isset($name) || is_null($name) || trim($name) === '') {
+                $isValid = false;
+                return $this->view->showError(mjsError: "El campo Nombre es requerido");
+            }
+
+            //Validar que el nombre no exceda los 50 caracteres
+            if (strlen($name) > 50) {
+                $isValid = false;
+                return $this->view->showError(mjsError: "El nombre no puede exceder los 50 caracteres");
+            }
+
+            // Validar que solo contenga letras y espacios
+            if (!preg_match("/^[A-Za-z\s]+$/", $name)) {
+                $isValid = false;
+                return $this->view->showError(mjsError: "El nombre solo puede contener letras y espacios");
+            }
+
+            // VALIDACIONES PHONE
+            // Verificar si el campo existe, no es null, ni vacío
+            if (!isset($phone) || is_null($phone) || trim($phone) === '') {
+                $isValid = false;
+                return $this->view->showError(mjsError: "El campo teléfono es requerido");
+            }
+
+            //Validar que el teléfono no exceda los 20 caracteres
+            if (strlen($phone) > 20) {
+                $isValid = false;
+                return $this->view->showError(mjsError: "El campo teléfono no puede exceder los 20 caracteres");
+            }
+
+            // VALIDACIONES EMAIL
+            // Verificar si el campo existe, no es null, ni vacío
+            if (!isset($email) || is_null($email) || trim($email) === '') {
+                $isValid = false;
+                return $this->view->showError(mjsError: "El campo Email es requerido");
+            }
+
+            // Validar que el nombre no exceda los 80 caracteres
+            if (strlen($email) > 80) {
+                $isValid = false;
+                return $this->view->showError(mjsError: "El campo Email no puede exceder los 80 caracteres");
+            }
+
+            // Validar formato email 
+            if (!preg_match("/^[\w\.\-]+@[a-zA-Z\d\-]+\.[a-zA-Z]{2,}$/", $email)) {
+                $isValid = false;
+                return $this->view->showError(mjsError: "El Email no tiene formato válido");
+            }
+
+            if ($isValid) { // si los datos del usuario pasaron todas las validaciones 
+                $this->model->add($name, $phone, $email);
+                header('Location: ' . BASE_URL);
+                exit();
+            }
+        } else {
+            return $this->view->showError("Se esperaba se usara el método POST");
+        }
+    }
+
 }
