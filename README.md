@@ -55,11 +55,12 @@ Queremos agradecer a los docentes y ayudantes de la cátedra, así como a la uni
 - [Lis Medina](https://www.linkedin.com/in/lis-medina/)
 
 
-ruta : http://localhost/inmobiliaria/ 
-
-
 ## Importar la DB
 Importar el archivo `inmobiliaria.sql` dentro de PHPMyAdmin para tener la base de datos completa.
 
+# Usuario admin
+username: `webadmin`
+password: `admin`
 
 
+ruta : http://localhost/inmobiliaria/ 

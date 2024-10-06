@@ -8,14 +8,12 @@ class ModelConectDB { //clase padre
 
     public function __construct() {
         try {
-
             // 1. abro la conexion a la DB 
             $this->db = new PDO(
                 "mysql:host=" . MYSQL_HOST . ";dbname=" . MYSQL_DB . ";charset=utf8",
                 MYSQL_USER,
                 MYSQL_PASS
             );
-
             // Establecer el modo de error de PDO a excepción  
             $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (PDOException $e) { 

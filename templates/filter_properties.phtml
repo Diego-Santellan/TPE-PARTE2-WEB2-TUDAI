@@ -1,0 +1,12 @@
+<form action="getAllPropertiesForOwner" method="GET">
+    <div class="form-floating">
+        <select class="form-select" id="filterOwner" name="filterOwner" aria-label="Floating label select example">
+            <option selected>Selecciona la categoria del item</option>
+            <?php foreach ($properties as $property) : ?>
+                <option value='<?php echo $property->id_owner ?>'><?php echo $property->id_owner ?></option>
+            <?php endforeach ?>
+        </select>
+        <label for="filterOwner">Ver propiedades por dueño</label>
+    </div>
+    <button class="btn btn-info" type="submit">Filtrar</button>
+</form>

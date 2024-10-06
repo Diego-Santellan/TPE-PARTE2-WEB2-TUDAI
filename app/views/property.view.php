@@ -3,8 +3,10 @@ class  PropertyView
 {
     public function showProperties($properties)
     {
+
         require_once './templates/layout/header.phtml';
-        require_once './templates/form_add_property.php';
+        require_once './templates/form_add_property.phtml';
+        require_once './templates/filter_properties.phtml';
 
 ?>
         <!--el controller me envia las propiedades que el modelo pidio a la DB-->
@@ -29,13 +31,14 @@ class  PropertyView
                             <td><?php echo $property->type ?></td>
                             <td><?php echo $property->zone ?></td>
                             <td><?php echo $property->price ?></td>
-                            <td><?php echo $property->description ?></td>
+                            <td><?php echo substr( $property->description, 0,20) ?>...</td>
                             <td><?php echo $property->mode ?></td>
                             <td><?php echo $property->status ?></td>
                             <td><?php echo $property->city ?></td>
                             <td><?php echo $property->id_owner ?></td>
                             <td><a class="btn btn-danger" href="deleteProperty/<?php echo $property->id_property ?>">Eliminar</a></td>
                             <td><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalPropertyEdit<?php echo $property->id_property ?>" data-bs-whatever="@getbootstrap">Editar</button></td>
+                            <td><a class="btn btn-info text-light" href="getProperty/<?php echo $property->id_property ?>">Ver más</a></td>
                         </tr>
 
                         <div class="modal fade" id="modalPropertyEdit<?php echo $property->id_property ?>" tabindex="-1" aria-labelledby="modalPropertyEditLabel<?php echo $property->id_property ?>" aria-hidden="true">

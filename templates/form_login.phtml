@@ -1,0 +1,23 @@
+<?php require_once 'templates/layout/header.phtml' ?>
+
+<?php if ($error): ?>
+    <div class='alert alert-danger' role='alert'>
+        <?= $error ?>
+    </div>
+<?php endif ?>
+
+
+<form method="POST" action="login">
+  <div class="mb-3">
+    <label for="usernameLogin" class="form-label">Nombre de usuario:</label>
+    <input type="text" class="form-control" name="usernameLogin" id="usernameLogin" required>
+  </div>
+  <div class="mb-3">
+    <label for="passwordLogin" class="form-label">Contraseña:</label>
+    <input type="password" class="form-control" id="passwordLogin" name="passwordLogin" required>
+  </div>
+  <button type="submit" class="btn btn-primary">Iniciar sesión</button>
+</form>
+
+<?php require_once 'templates/layout/footer.phtml' ?>
+

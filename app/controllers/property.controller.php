@@ -2,6 +2,7 @@
 
 /* REQUERMIMOS MODELO Y VISTA : el controler es un pasamanos*/
 require_once './app/models/property.model.php';
+require_once './app/models/owner.model.php';
 require_once './app/views/property.view.php';
 
 //CLASE --> cada componente del MVC es un clase y los metodos lógicos van dentro de cada clase 
@@ -9,6 +10,7 @@ class PropertyController
 {
     // ATRIBUTOS PRIVADOS
     private $model;
+    private $modelOwner;
     private $view;
     private $optionsTypeProperty = ["house", "apartament", "lot", "countryHouse"];
     private $optionsModeProperty = ["sell", "rent"];
@@ -17,18 +19,37 @@ class PropertyController
     // CONSTRUCTOR
     public function __construct()
     {
+        // este controler requiere dos modelos (propiedads y owner)
         $this->model = new PropertyModel();
+        $this->modelOwner = new OwnerModel();
         $this->view = new PropertyView();
     }
 
     // MÉTODOS O FUNCIONES DE LA CLASE  
+
     public function getAllProperties()
     {
         // obtengo las propiedades de la DB 
         $properties = $this->model->getAll();
-
+        // $owners = $this->modelOwner->getAll();
         // mando las propiedades a la vista 
-        return $this->view->showProperties($properties);
+        return $this->view->showProperties(properties: $properties);
+    }
+
+    
+    public function getAllPropertiesForOwner()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+
+            $optionFilterId = $_GET['filterOwner'];//guardo el valor selecciondo por el us
+        
+            // obtengo todas las propiedades de la DB 
+            $properties = $this->model->getPropertiesForOwner($optionFilterId);
+            // mando las propiedades a la vista 
+            return $this->view->showProperties($properties);
+        }else{
+            return $this->view->showError("Se esperaba se usara el método GET");
+        }
     }
 
     public function getProperty($id)

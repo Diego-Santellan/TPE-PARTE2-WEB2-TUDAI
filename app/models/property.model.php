@@ -4,6 +4,18 @@ require_once './app/models/modelConectDB.php';
 class PropertyModel extends ModelConectDB
 { // Cada modelo hijo hereda de la clase padre la conexion a la DB,seria el paso 1 para no reprtir codigo, la clase padre abre la conexion a la bd
 
+
+    public function getAllOwnnerProperties()
+    {
+        // 2. Ejecuto la consulta y obtengo la columna id_owner para obtner los id de los clientes de propiedades
+        $query = $this->db->prepare('SELECT id_owner FROM properties;');
+        $query->execute();
+
+        // 3. Obtengo los datos en un arreglo de objetos
+        $propertiesOwners = $query->fetchAll(PDO::FETCH_OBJ);
+
+        return $propertiesOwners;
+    }
     public function getAll()
     {
         // 2. Ejecuto la consulta
@@ -14,6 +26,14 @@ class PropertyModel extends ModelConectDB
         $properties = $query->fetchAll(PDO::FETCH_OBJ);
 
         return $properties;
+    }
+    public function getPropertiesForOwner($id_owner){
+        // traer todas las propiedades donde el dueño es quien llega por params 
+        $query=$this->db->prepare('SELECT * FROM propiedad WHERE id_owner=?');
+        $query->execute([$id_owner]);
+
+        $propertiesOwner= $query->fetchAll(PDO::FETCH_OBJ);
+        return $propertiesOwner;
     }
 
     public function get($id)
