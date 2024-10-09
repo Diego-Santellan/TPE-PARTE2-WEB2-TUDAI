@@ -19,4 +19,16 @@ class UserModel extends ModelConectDB {
         return $id;
     }
 
+    public function getUserById($userID){
+        $query=$this->db->prepare('SELECT * FROM users WHERE id_user=?' );
+        $query->execute([$userID]);
+
+        $user = $query->fetch(PDO::FETCH_OBJ);
+    
+        return $user;//te da el obejto usuario con sus propiedades(cols de la DB)
+
+
+    }
+
+
 }

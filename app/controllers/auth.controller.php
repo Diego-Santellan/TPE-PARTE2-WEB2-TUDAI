@@ -29,13 +29,13 @@ class AuthController
             }
 
             //Validar que el nombre usuario no exceda los 20 caracteres
-            if (strlen($_POST['usernameLogin']) > 20) {
+            if (strlen($_POST['usernameRegister']) > 20) {
                 $isValid = false;
                 return $this->view->showLogin("El nombre de usuario no puede exceder los 20 caracteres");
             }
 
             // Verificar caracteres válidos (solo letras y números)
-            if (!preg_match('/^[a-zA-Z0-9_]+$/', $_POST['usernameLogin'])) {
+            if (!preg_match('/^[a-zA-Z0-9_]+$/', $_POST['usernameRegister'])) {
                 $isValid = false;
                 return $this->view->showLogin("El nombre de usuario sólo puede contener letras, números y guiones bajos.");
             }
@@ -56,16 +56,21 @@ class AuthController
 
                 // verifica que el us no este en la DB  
                 if (!$userFromDB) {
-                    // Guardo en la sesión el ID del usuario y otros datos de el
-                    $this->model->addUser($username, $passwordHash);
-                    session_start();
-                    $_SESSION['id_user'] = $userFromDB->id_user;
-                    $_SESSION['username'] = $userFromDB->username;
-                    $_SESSION['LAST_ACTIVITY'] = time();
-                    // Redirijo al home
-                    header('Location: ' . BASE_URL);
+                    $userID = $this->model->addUser($username, $passwordHash); //guarada el id del ultimo usuario agregado 
+                    
+                    if ($userID) { //si se pudo registrar trae el objeto usuario buscandolo por id 
+                        $user = $this->model->getUserById($userID);
+                        // Guardo en la sesión el ID del usuario y otros datos de el
+                        session_start();
+                        $_SESSION['id_user'] =$userID;
+                        $_SESSION['username'] =$user;
+                        $_SESSION['LAST_ACTIVITY'] = time();
+                        // Redirijo al home
+                        header('Location: ' . BASE_URL . 'getAllProperties'); //no se pone barra, lo pone el explode
+
+                    }
                 } else {
-                    return $this->view->showRegister('Ese usuario ya existe.No puede registrarse con ese nombre de usuario');
+                    return $this->view->showRegister('Ese usuario ya existe. No puede registrarse con ese nombre de usuario');
                 }
             }
         } else {

@@ -22,6 +22,11 @@
                             <td><?php echo $owner->email ?> </td>
                             <td><a class="btn btn-danger" href="deleteOwner/<?php echo $owner->id_owner ?>">Eliminar</a></td>
                             <td><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalOwnerEdit<?php echo $owner->id_owner ?>" data-bs-whatever="@getbootstrap">Editar</button></td>
+                            
+                            <!-- getAllPropertiesForOwner(es la accion del formulario que tiene el select para Seleccionar la categoria del item,ese form lo mando por get -->
+                            <!-- filterOwner identifica a la opcion elegida con ese nombre q tiene como valor el id del dueño -->
+                            <td><a class="btn btn-info text-light" href="getAllPropertiesForOwner?filterOwner=<?php echo $owner->id_owner ?>">ver propiedades</a></td>
+                       
                         </tr>
 
                         <!--  <div class="modal fade" id="modalOwnerEdit" tabindex="-1" aria-labelledby="modalOwnerEditLabel" aria-hidden="true">

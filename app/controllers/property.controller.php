@@ -31,23 +31,26 @@ class PropertyController
     {
         // obtengo las propiedades de la DB 
         $properties = $this->model->getAll();
-        // $owners = $this->modelOwner->getAll();
-        // mando las propiedades a la vista 
-        return $this->view->showProperties(properties: $properties);
+        //uso el modelo de owners para traer todos los dueños
+        $owners = $this->modelOwner->getAll();
+        // mando las propiedades a la vista y todos los dueños
+        return $this->view->showProperties($properties, $owners);
     }
 
-    
+
     public function getAllPropertiesForOwner()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
-            $optionFilterId = $_GET['filterOwner'];//guardo el valor selecciondo por el us
-        
+            $optionFilterId = $_GET['filterOwner']; //guardo el valor selecciondo por el us
+
             // obtengo todas las propiedades de la DB 
             $properties = $this->model->getPropertiesForOwner($optionFilterId);
-            // mando las propiedades a la vista 
-            return $this->view->showProperties($properties);
-        }else{
+            //uso el modelo de owners para traer todos los dueños
+            $owners = $this->modelOwner->getAll();
+            // mando las propiedades a la vista y todos los dueños
+            return $this->view->showProperties($properties, $owners);
+        } else {
             return $this->view->showError("Se esperaba se usara el método GET");
         }
     }
@@ -74,9 +77,8 @@ class PropertyController
 
 
         $this->model->delete($id);
-        header('Location: ' . BASE_URL.'/getAllProperties'); /* PARA REDIRIJIR AL HOME UNA VEZ ELIMINADA  la propiedad */
+        header('Location: ' . BASE_URL . '/getAllProperties'); /* PARA REDIRIJIR AL HOME UNA VEZ ELIMINADA  la propiedad */
         exit();
-
     }
 
     public function updateProperty($id)
@@ -246,7 +248,7 @@ class PropertyController
 
             if ($isValid) { // si los datos del usuario pasaron todas las validaciones 
                 $this->model->update($id, $type, $zone, $price, $description, $mode, $status, $city, $id_owner);
-                header('Location: ' . BASE_URL.'/getAllProperties');
+                header('Location: ' . BASE_URL . '/getAllProperties');
                 exit();
             }
             return  $this->getAllproperties();
@@ -420,10 +422,9 @@ class PropertyController
             //*********     VALIDACIONES ID_OWNER     *********//
             if ($isValid) { // si los datos del usuario pasaron todas las validaciones 
                 $this->model->add($type, $zone, $price, $description, $mode, $status, $city, $id_owner);
-                header('Location: ' . BASE_URL.'/getAllProperties');
+                header('Location: ' . BASE_URL . '/getAllProperties');
                 exit();
             }
-
         } else {
             return $this->view->showError("Se esperaba se usara el método POST");
         }

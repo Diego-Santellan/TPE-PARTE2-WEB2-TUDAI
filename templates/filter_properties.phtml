@@ -2,8 +2,9 @@
     <div class="form-floating">
         <select class="form-select" id="filterOwner" name="filterOwner" aria-label="Floating label select example">
             <option selected>Selecciona la categoria del item</option>
-            <?php foreach ($properties as $property) : ?>
-                <option value='<?php echo $property->id_owner ?>'><?php echo $property->id_owner ?></option>
+            <?php foreach ($owners as $owner) : ?>
+                <!-- por cada owner geenra cada opción del select  -->
+                <option value='<?php echo $owner->id_owner ?>'><?php echo $owner->name ?></option>
             <?php endforeach ?>
         </select>
         <label for="filterOwner">Ver propiedades por dueño</label>

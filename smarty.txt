@@ -1,0 +1,40 @@
+resumen del proceso que seguiste para configurar Smarty:
+Instalación de Smarty:se usó Composer para instalar Smarty en el proyecto, lo cual permite manejar dependencias de manera sencilla.
+
+Estructura de Directorios:
+
+se crearon las siguientes carpetas necesarias:
+templates/: para los archivos de plantilla.
+templates_c/: para los archivos compilados que Smarty generará.
+cache/: para almacenar los archivos en caché.
+configs/: opcionalmente para archivos de configuración.
+
+Configuración Inicial:
+En el archivo config.php, se cargo las dependencias de Composer con require_once './vendor/autoload.php'.
+se incializo Smarty creando una instancia de la clase Smarty y se configuro los directorios de plantillas, compilados, caché y configuraciones.
+
+Creación de Plantillas:
+Creae archivos de plantilla (por ejemplo, form_login.phtml y form_register.phtml) donde defines la estructura y el contenido HTML, utilizando la sintaxis de Smarty para la lógica de presentación.
+Renderizado de Plantillas:
+
+se uso los métodos de Smarty para asignar variables y renderizar las plantillas desde tu archivo de vista, como showLogin y showRegister.
+¿Qué es Smarty?
+Smarty es un motor de plantillas para PHP que permite separar la lógica de la aplicación de la presentación de la interfaz de usuario. Esto significa que puedes mantener tu código PHP y tu HTML organizados y más fáciles de mantener.
+
+Beneficios de Usar Smarty
+Separación de Concerns:
+
+Permite mantener la lógica de la aplicación (PHP) separada de la presentación (HTML), lo que mejora la mantenibilidad del código.
+Plantillas Reutilizables:
+
+Facilita la creación de plantillas reutilizables, lo que ahorra tiempo y esfuerzo en el desarrollo.
+Manejo Eficiente de Caché:
+
+Smarty maneja la caché de las plantillas, lo que puede mejorar el rendimiento de la aplicación al reducir el tiempo de carga.
+Sintaxis Clara:
+
+Su sintaxis es fácil de entender y utilizar, lo que permite a los diseñadores y desarrolladores trabajar juntos más eficientemente.
+Condiciones y Bucles:
+
+Ofrece estructuras de control (if, foreach) que permiten crear vistas dinámicas y condicionales con facilidad.
+Usar Smarty puede ser especialmente beneficioso en proyectos más grandes donde la separación de la lógica de presentación y la lógica de la aplicación es crucial para la escalabilidad y el mantenimiento a largo plazo.

@@ -5,7 +5,7 @@ require_once './app/controllers/auth.controller.php';
 require_once './app/controllers/owner.controller.php';
 require_once './app/controllers/property.controller.php';
 
-// base_url para redirecciones y base tag
+// base_url para redirecciones y base tag.. la base url es el localhost , el dominio  en desarrollo 
 define('BASE_URL', '//' . $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'] . dirname($_SERVER['PHP_SELF']) . '/');
 
 $res = new Response();
@@ -85,8 +85,8 @@ switch ($params[0]) {
         $controller->getProperty($params[1]);
         break;
 
-    
-    case 'getAllPropertiesForOwner':
+
+    case 'getAllPropertiesForOwner':// es el action de filter_properties(form con el select)
         sessionAuthMiddleware(res: $res);
         $controller = new PropertyController();
         $controller->getAllPropertiesForOwner();
@@ -117,7 +117,13 @@ switch ($params[0]) {
 
     case 'register': // el form al ser enviado llama a register 
         $controller = new AuthController();
-        $controller->register(); 
+        $controller->register();
+        break;
+
+
+    case 'showLogin': // si el midleware de auth entra en el else(el usuario no esta logueado te manda al showLogin )
+        $controller = new AuthController();
+        $controller->showLogin();//te renderiza el form para loguearte
         break;
 
     case 'login': // el form al ser enviado llama a login 
@@ -125,10 +131,7 @@ switch ($params[0]) {
         $controller->login(); //accion de login propiamente dicha
         break;
 
-    case 'showLogin': // si el midleware de auth entra en el else(el usuario no esta logueado te manda al login )
-        $controller = new AuthController();
-        $controller->showLogin();
-        break;
+
 
     case 'logout':
         $controller = new AuthController();
