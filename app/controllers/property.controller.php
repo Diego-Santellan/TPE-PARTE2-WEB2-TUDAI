@@ -12,17 +12,18 @@ class PropertyController
     private $model;
     private $modelOwner;
     private $view;
+
+    // estas opciones podrian estar dese una db o archivo 
     private $optionsTypeProperty = ["house", "apartament", "lot", "countryHouse"];
     private $optionsModeProperty = ["sell", "rent"];
     private $optionsStatusProperty = ["sold", "rented", "available"];
 
     // CONSTRUCTOR
-    public function __construct()
-    {
+    public function __construct($res){
         // este controler requiere dos modelos (propiedads y owner)
         $this->model = new PropertyModel();
         $this->modelOwner = new OwnerModel();
-        $this->view = new PropertyView();
+        $this->view = new PropertyView($res->user);
     }
 
     // MÉTODOS O FUNCIONES DE LA CLASE  

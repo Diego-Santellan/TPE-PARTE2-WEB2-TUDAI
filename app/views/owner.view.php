@@ -1,6 +1,13 @@
 <?php
 class  OwnerView
 {
+    private $user = null;
+
+    public function __construct($user) {
+        $this->user = $user;
+    }
+
+
     
     public function showOwners($owners){
         require_once './templates/list_owners.phtml';
@@ -12,6 +19,6 @@ class  OwnerView
     }
     public function showError($mjsError)
     {
-        require_once './templates/error.owner.phtml';  
+        require_once './templates/error_owner.phtml';  
 }
 }

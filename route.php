@@ -1,6 +1,7 @@
 <?php
 require_once './libs/response.php';
 require_once './app/middlewares/session.auth.middleware.php';
+require_once './app/middlewares/verify.auth.middleware.php';
 require_once './app/controllers/auth.controller.php';
 require_once './app/controllers/owner.controller.php';
 require_once './app/controllers/property.controller.php';
@@ -20,16 +21,15 @@ $params = explode('/', $action);
 
 // tabla de ruteo
 
-// getAllOwners
-// getAllOwners
-// getOwner/:ID 
-// deleteOwner/:ID 
-// updateOwner/:ID 
-// addOwner
-// getAllProperties
-// getProperty/:ID 
-// deleteProperty/:ID 
-// updateProperty/:ID 
+// getAllOwners Obtener todos los dueños
+// getOwner/:ID Obtener un dueño específico por ID.
+// deleteOwner/:ID Eliminar un dueño específico por ID.
+// updateOwner/:ID Actualizar un dueño específico por ID
+// addOwner Agregar un nuevo dueño.
+// getAllProperties Obtener todas las propiedades
+// getProperty/:ID Obtener una propiedad específica por ID
+// deleteProperty/:ID Eliminar una propiedad específica por ID.
+// updateProperty/:ID Actualizar una propiedad específica por ID.
 // addProperty
 // showRegister
 // register
@@ -37,76 +37,87 @@ $params = explode('/', $action);
 // showLogin
 // logout
 // default
-
+      
 
 switch ($params[0]) {
 
         // lado 1 de la relación: duenio(Categorías) . 
     case 'getAllOwners':
-        sessionAuthMiddleware(res: $res);
-        $controller = new OwnerController();
+        sessionAuthMiddleware($res); // Setea $res->user si existe session
+        verifyAuthMiddleware($res); // Verifica que el usuario esté logueado o redirige a login
+        $controller = new OwnerController($res);
         $controller->getAllOwners();
         break;
 
     case 'getOwner':
-        sessionAuthMiddleware(res: $res);
-        $controller = new OwnerController();
+        sessionAuthMiddleware($res); 
+        verifyAuthMiddleware($res); 
+        $controller = new OwnerController($res);
         $controller->getOwner($params[1]);
         break;
 
     case 'deleteOwner': /* Realizar una accion como recargar la pagina al eliminar un elemento... en caso de que no se pueda avisar y detallar*/
-        sessionAuthMiddleware(res: $res);
-        $controller = new OwnerController();
+        sessionAuthMiddleware( $res);
+        verifyAuthMiddleware($res); 
+        $controller = new OwnerController($res);
         $controller->deleteOwner($params[1]);
         break;
 
     case 'updateOwner':
-        sessionAuthMiddleware(res: $res);
-        $controller = new OwnerController();
+        sessionAuthMiddleware( $res);
+        verifyAuthMiddleware($res); 
+        $controller = new OwnerController($res);
         $controller->updateOwner($params[1]);
         break;
 
     case 'addOwner':
-        sessionAuthMiddleware(res: $res);
-        $controller = new OwnerController();
+        sessionAuthMiddleware( $res);
+        verifyAuthMiddleware($res); 
+        $controller = new OwnerController($res);
         $controller->addOwner();
         break;
 
         // lado N de la relacion: propiedades(items) . 
     case 'getAllProperties':
-        sessionAuthMiddleware(res: $res);
-        $controller = new PropertyController();
+        sessionAuthMiddleware($res);
+        verifyAuthMiddleware($res); 
+        $controller = new PropertyController($res);
         $controller->getAllProperties();
         break;
 
     case 'getProperty':
-        sessionAuthMiddleware(res: $res);
-        $controller = new PropertyController();
+        sessionAuthMiddleware( $res);
+        verifyAuthMiddleware($res); 
+        $controller = new PropertyController($res);
         $controller->getProperty($params[1]);
         break;
 
 
     case 'getAllPropertiesForOwner':// es el action de filter_properties(form con el select)
-        sessionAuthMiddleware(res: $res);
-        $controller = new PropertyController();
+        sessionAuthMiddleware( $res);
+        verifyAuthMiddleware($res); 
+        $controller = new PropertyController($res);
         $controller->getAllPropertiesForOwner();
         break;
 
     case 'deleteProperty': /* Realizar una acción como recargar la pagina al eliminar un elemento... en caso de que no se pueda avisar y detallar*/
-        sessionAuthMiddleware(res: $res);
-        $controller = new PropertyController();
+        sessionAuthMiddleware( $res);
+        verifyAuthMiddleware($res); 
+        $controller = new PropertyController($res);
         $controller->deleteProperty($params[1]);
         break;
 
     case 'updateProperty':
-        sessionAuthMiddleware(res: $res);
-        $controller = new PropertyController();
+        sessionAuthMiddleware( $res);
+        verifyAuthMiddleware($res); 
+        $controller = new PropertyController($res);
         $controller->updateProperty($params[1]);
         break;
 
     case 'addProperty':
-        sessionAuthMiddleware(res: $res);
-        $controller = new PropertyController();
+        sessionAuthMiddleware( $res);
+        verifyAuthMiddleware($res); 
+        $controller = new PropertyController($res);
         $controller->addProperty();
         break;
 
@@ -130,9 +141,6 @@ switch ($params[0]) {
         $controller = new AuthController();
         $controller->login(); //accion de login propiamente dicha
         break;
-
-
-
     case 'logout':
         $controller = new AuthController();
         $controller->logout();

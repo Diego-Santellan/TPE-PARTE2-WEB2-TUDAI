@@ -12,10 +12,10 @@ class OwnerController
     private $view;
 
     // CONSTRUCTOR
-    public function __construct()
+    public function __construct($res)
     {
         $this->model = new OwnerModel();
-        $this->view = new  OwnerView();
+        $this->view = new  OwnerView($res->user);
     }
 
     // MÉTODOS O FUNCIONES DE LA CLASE  

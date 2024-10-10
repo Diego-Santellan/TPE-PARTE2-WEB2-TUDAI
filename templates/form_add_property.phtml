@@ -1,1 +1,64 @@
- 
+<h2 class="text-center m-4">Ingresar nueva propiedad</h2>
+
+<div class="d-flex justify-content-center">
+    <!-- en action va la ruta accion(URL) -->
+    <form action="newProperty" method="post" id="formProperty"
+        class="needs-validation p-4 bg-light border border-secondary rounded shadow w-50">
+        <div class="mb-3">
+
+            <label class="form-label fw-bold" for="typePropertyAdd">Tipo de propiedad:</label>
+            <select class="form-select" id="typePropertyAdd" name="typePropertyAdd" required>
+                <option value="apartament">DEPARTAMENTO</option>
+                <option value="house">CASA</option>
+                <option value="lot">LOTE</option>
+                <option value="countryHouse">QUINTA</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label fw-bold" for="zonePropertyAdd">Zona:</label>
+            <input class="form-control" type="text" id="zonePropertyAdd" name="zonePropertyAdd" maxlength="45" required>
+            <span id="zonePropertyAddError" class="errorMessage"></span>
+        </div>
+        <div class="mb-3">
+            <label class="form-label fw-bold" for="pricePropertyAdd">Precio sin decimales en USD:</label>
+            <input class="form-control" type="number" id="pricePropertyAdd" name="pricePropertyAdd" min="0"
+                max="9999999999" maxlength="10" required>
+            <span id="pricePropertyAddError" class="errorMessage"></span>
+        </div>
+        <div class="mb-3">
+            <label class="form-label fw-bold" for="descriptionPropertyAdd">Descripción:</label>
+            <input class="form-control" type="text" id="descriptionPropertyAdd" name="descriptionPropertyAdd"
+                maxlength="500" rows="4" cols="50" required>
+            <span id="descriptionPropertyAddError" class="errorMessage"></span>
+        </div>
+        <div class="mb-3">
+            <label class="form-label fw-bold" for="modePropertyAdd">Modalidad:</label>
+            <select class="form-select" id="modePropertyAdd" name="modePropertyAdd" required>
+                <option value="sell">VENTA</option>
+                <option value="rent">ALQUILER</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label class="form-label fw-bold" for="statusPropertyAdd">Estado:</label>
+            <select class="form-select" id="statusPropertyAdd" name="statusPropertyAdd" required>
+                <option value="sold">VENDIDO</option>
+                <option value="rented">ALQUILADO</option>
+                <option value="available">DISPONIBLE</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label class="form-label fw-bold" for="cityPropertyAdd">Localidad:</label>
+            <input class="form-control" type="text" id="cityPropertyAdd" name="cityPropertyAdd" maxlength="45" required>
+            <span id="cityPropertyAddError" class="errorMessage"></span>
+        </div>
+        <div class="mb-3">
+            <label class="form-label fw-bold" for="id_ownerPropertyAdd">ID Dueño:</label>
+            <input class="form-control" type="number" id="id_ownerPropertyAdd" name="id_ownerPropertyAdd" required>
+        </div>
+
+        <div class="d-flex justify-content-center">
+            <button type="submit" class="btn btn-primary w-50">Guardar Propiedad</button>
+        </div>
+    </form>
+</div>
