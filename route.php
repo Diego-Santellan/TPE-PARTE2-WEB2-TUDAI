@@ -13,7 +13,7 @@ define('BASE_URL', '//' . $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'
 
 $res = new Response();
 
-$action = 'getAllOwners'; // Acción por defecto si no se envía ninguna
+$action = 'getAllProperties'; // Acción por defecto si no se envía ninguna
 if (!empty($_GET['action'])) {
     $action = $_GET['action'];
 }
@@ -96,8 +96,9 @@ switch ($params[0]) {
 
         // lado N de la relacion: propiedades(items) . 
     case 'getAllProperties':
+        // puede verse sin estar loggeado 
         sessionAuthMiddleware($res);
-        verifyAuthMiddleware($res);
+        // verifyAuthMiddleware($res);
         $controller = new PropertyController($res);
         $controller->getAllProperties();
         break;

@@ -1,6 +1,10 @@
 <!-- se van renderizando los siguientes templates antes que la tabla -:header,formualri para agregar propiedad-->
 <?php require_once './templates/layout/header.phtml'; ?>
-<?php require_once './templates/form_add_property.phtml'; ?>
+<!-- si existe un usaurio ,muesta el formulario para agregar una propiedad -->
+<?php if ($this->user) : ?>
+    <?php require_once './templates/form_add_property.phtml'; ?>
+<?php endif?>
+
 <?php require_once './templates/filter_properties.phtml'; ?>
 
 <!--el controller me envia las propiedades que el modelo pidio a la DB-->
