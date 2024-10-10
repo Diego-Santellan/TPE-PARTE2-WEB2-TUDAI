@@ -1,6 +1,6 @@
 <?php
         require_once './templates/layout/header.phtml';
-        require_once './templates/form_add_owner.php';
+        require_once './templates/form_add_owner.phtml';
         
 ?>
         <!--el controller me envia los duenios que el modelo pidio a la DB-->
@@ -25,7 +25,7 @@
                             
                             <!-- getAllPropertiesForOwner(es la accion del formulario que tiene el select para Seleccionar la categoria del item,ese form lo mando por get -->
                             <!-- filterOwner identifica a la opcion elegida con ese nombre q tiene como valor el id del dueño -->
-                            <td><a class="btn btn-info text-light" href="getAllPropertiesForOwner?filterOwner=<?php echo $owner->id_owner ?>">ver propiedades</a></td>
+                            <td><a class="btn btn-info text-light" href="getAllPropertiesForOwner?filterOwner=<?php echo $owner->id_owner ?>">Ver propiedades</a></td>
                        
                         </tr>
 

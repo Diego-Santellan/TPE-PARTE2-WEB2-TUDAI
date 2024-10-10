@@ -1,0 +1,26 @@
+
+<?php require_once 'templates/layout/header.phtml' ?>
+
+<h2 class="text-center m-4">Registrarse</h2>
+
+<?php if ($error): ?><!-- mostrar errores -->
+    <div class='alert alert-danger' role='alert'>
+        <?= $error ?>
+    </div>
+<?php endif ?>
+
+<div class="d-flex flex-column align-items-center justify-content-center mt-5 w-100">
+    <form method="POST" action="register" class="needs-validation p-4 bg-light border border-secondary rounded shadow w-50">
+        <div class="mb-3">
+            <label for="usernameRegister" class="form-label">Nombre de usuario:</label>
+            <input type="text" class="form-control" name="usernameRegister" id="usernameRegister" required>
+        </div>
+        <div class="mb-3">
+            <label for="passwordRegister" class="form-label">Contraseña:</label>
+            <input type="password" class="form-control" id="passwordRegister" name="passwordRegister" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Registrese</button>
+    </form>
+    <a class="mt-5" href="showLogin">Ya estas registrado? Inicia sesion.</a>
+</div>
+<?php require_once 'templates/layout/footer.phtml' ?>

@@ -8,7 +8,7 @@ class PropertyModel extends ModelConectDB
     public function getAllOwnnerProperties()
     {
         // 2. Ejecuto la consulta y obtengo la columna id_owner para obtner los id de los clientes de propiedades
-        $query = $this->db->prepare('SELECT id_owner FROM properties;');
+        $query = $this->db->prepare('SELECT id_owner FROM properties');
         $query->execute();
 
         // 3. Obtengo los datos en un arreglo de objetos
