@@ -209,4 +209,8 @@ class OwnerController
             return $this->view->showError("Se esperaba se usara el método POST");
         }
     }
+
+    public function showError($error){
+        return $this->view->showError($error);
+    }
 }
