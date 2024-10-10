@@ -37,7 +37,7 @@ $params = explode('/', $action);
 // showLogin
 // logout
 // default
-
+      
 
 switch ($params[0]) {
 
