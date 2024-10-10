@@ -1,7 +1,7 @@
 <form action="getAllPropertiesForOwner" method="GET">
     <div class="form-floating">
         <select class="form-select" id="filterOwner" name="filterOwner" aria-label="Floating label select example">
-            <option selected>Selecciona la categoria del item</option>
+            <option selected>Selecciona la categoría/dueño del item</option>
             <?php foreach ($owners as $owner) : ?>
                 <!-- por cada owner geenra cada opción del select  -->
                 <option value='<?php echo $owner->id_owner ?>'><?php echo $owner->name ?></option>

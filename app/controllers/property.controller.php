@@ -19,7 +19,8 @@ class PropertyController
     private $optionsStatusProperty = ["sold", "rented", "available"];
 
     // CONSTRUCTOR
-    public function __construct($res){
+    public function __construct($res)
+    {
         // este controler requiere dos modelos (propiedads y owner)
         $this->model = new PropertyModel();
         $this->modelOwner = new OwnerModel();
@@ -429,5 +430,10 @@ class PropertyController
         } else {
             return $this->view->showError("Se esperaba se usara el método POST");
         }
+    }
+
+    public function showError($error)
+    {
+        return $this->view->showError($error);
     }
 }
