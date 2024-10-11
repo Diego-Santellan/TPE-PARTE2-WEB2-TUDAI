@@ -97,7 +97,7 @@ class PropertyController
         // tomar datos del form ingresados por el usuario y validarlos , funcion importante del contoller 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-            $type = $_POST['typePropertyEdit'];
+            $type = $_POST['typePropertyEdit'];//name del formulario 
             $zone = $_POST['zonePropertyEdit'];
             $price = intval($_POST['pricePropertyEdit']); //quedarse sólo con la parte entera 
             $description = $_POST['descriptionPropertyEdit'];
@@ -250,7 +250,7 @@ class PropertyController
 
             if ($isValid) { // si los datos del usuario pasaron todas las validaciones 
                 $this->model->update($id, $type, $zone, $price, $description, $mode, $status, $city, $id_owner);
-                header('Location: ' . BASE_URL . '/getAllProperties');
+                header(header: 'Location: ' . BASE_URL . '/getAllProperties');
                 exit();
             }
             return  $this->getAllproperties();

@@ -13,7 +13,7 @@ define('BASE_URL', '//' . $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'
 
 $res = new Response();
 
-$action = 'getAllOwners'; // Acción por defecto si no se envía ninguna
+$action = 'getAllProperties'; // Acción por defecto si no se envía ninguna
 if (!empty($_GET['action'])) {
     $action = $_GET['action'];
 }
@@ -48,14 +48,14 @@ switch ($params[0]) {
         // lado 1 de la relación: dueño(Categorías) . 
     case 'getAllOwners':
         sessionAuthMiddleware($res); // Setea $res->user si existe session
-        verifyAuthMiddleware($res); // Verifica que el usuario esté logueado o redirige a login
+        // verifyAuthMiddleware($res); // Verifica que el usuario esté logueado o redirige a login
         $controller = new OwnerController($res);
         $controller->getAllOwners();
         break;
 
     case 'getOwner':
         sessionAuthMiddleware($res);
-        verifyAuthMiddleware($res);
+        // verifyAuthMiddleware($res);
         $controller = new OwnerController($res);
         if (isset($params[1])) { //verifica que el parametro este setado
             // Antes de usar $params[1] en acciones como getOwner, deleteOwner, updateOwner, se debe verificar si el índice existe para evitar errores si no se proporciona el parámetro.
@@ -96,15 +96,16 @@ switch ($params[0]) {
 
         // lado N de la relacion: propiedades(items) . 
     case 'getAllProperties':
+        // puede verse sin estar loggeado 
         sessionAuthMiddleware($res);
-        verifyAuthMiddleware($res);
+        // verifyAuthMiddleware($res);
         $controller = new PropertyController($res);
         $controller->getAllProperties();
         break;
 
     case 'getProperty':
         sessionAuthMiddleware($res);
-        verifyAuthMiddleware($res);
+        // verifyAuthMiddleware($res);
         $controller = new PropertyController($res);
         if (isset($params[1])) {
             $controller->getProperty($params[1]);
@@ -116,7 +117,7 @@ switch ($params[0]) {
 
     case 'getAllPropertiesForOwner': // es el action de filter_properties(form con el select)
         sessionAuthMiddleware($res);
-        verifyAuthMiddleware($res);
+        // verifyAuthMiddleware($res);
         $controller = new PropertyController($res);
         $controller->getAllPropertiesForOwner();
         break;

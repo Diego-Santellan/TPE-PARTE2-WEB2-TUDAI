@@ -57,8 +57,8 @@ class PropertyModel extends ModelConectDB
     public function update($id_property, $type, $zone, $price, $description, $mode, $status, $city, $id_owner)
     {
         // 2. Ejecuto la consulta Modificar registros de una tabla en 2 pasos apra evitar la inyeccion de datos          
-        $query = $this->db->prepare('UPDATE propiedad SET  type = ?, zone = ?, price = ?, description = ?, mode = ?, status = ?, city = ?, id_owner = ? WHERE id_property = ?');
-        $query->execute([$type, $zone, $price, $description, $mode, $status, $city, $id_owner, $id_property]);
+        $query = $this->db->prepare('UPDATE propiedad SET  type = ?, zone = ?, price = ?, description = ?, mode = ?, status = ?, city = ?, id_owner = ? WHERE id_property = ?');//nombre de las cols de la db
+        $query->execute([$type, $zone, $price, $description, $mode, $status, $city, $id_owner, $id_property]);//variables donde guaarde lo que viene por post
     }
 
     public function add($type, $zone, $price, $description, $mode, $status, $city, $id_owner)
