@@ -24,8 +24,12 @@
                         <td><?php echo $property->status ?></td>
                         <td><?php echo $property->city ?></td>
                         <td><?php echo $property->id_owner ?></td>
+                        <?php if ($this->user) : ?>
+
                         <td><a class="btn btn-danger" href="deleteProperty/<?php echo $property->id_property ?>">Eliminar</a></td>
                         <td><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalPropertyEdit<?php echo $property->id_property ?>" data-bs-whatever="@getbootstrap">Editar</button></td>
+                        <?php endif?>
+
                     </tr>
 
                     <div class="modal fade" id="modalPropertyEdit<?php echo $property->id_property ?>" tabindex="-1" aria-labelledby="modalPropertyEditLabel<?php echo $property->id_property ?>" aria-hidden="true">

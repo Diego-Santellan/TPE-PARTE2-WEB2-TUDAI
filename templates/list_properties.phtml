@@ -1,9 +1,9 @@
 <!-- se van renderizando los siguientes templates antes que la tabla -:header,formualri para agregar propiedad-->
 <?php require_once './templates/layout/header.phtml'; ?>
-<!-- si existe un usaurio ,muesta el formulario para agregar una propiedad -->
+<!-- si existe un usuraio (si esta logeado),muesta el formulario para agregar una propiedad -->
 <?php if ($this->user) : ?>
     <?php require_once './templates/form_add_property.phtml'; ?>
-<?php endif?>
+<?php endif ?>
 
 <?php require_once './templates/filter_properties.phtml'; ?>
 
@@ -30,13 +30,17 @@
                     <td><?php echo $property->type ?></td>
                     <td><?php echo $property->zone ?></td>
                     <td><?php echo $property->price ?></td>
-                    <td><?php echo substr( $property->description, 0,20) ?>...</td>
+                    <td><?php echo substr($property->description, 0, 20) ?>...</td>
                     <td><?php echo $property->mode ?></td>
                     <td><?php echo $property->status ?></td>
                     <td><?php echo $property->city ?></td>
                     <td><?php echo $property->id_owner ?></td>
-                    <td><a class="btn btn-danger" href="deleteProperty/<?php echo $property->id_property ?>">Eliminar</a></td>
-                    <td><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalPropertyEdit<?php echo $property->id_property ?>" data-bs-whatever="@getbootstrap">Editar</button></td>
+                    <?php if ($this->user) : ?>
+
+                        <td><a class="btn btn-danger" href="deleteProperty/<?php echo $property->id_property ?>">Eliminar</a></td>
+                        <td><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalPropertyEdit<?php echo $property->id_property ?>" data-bs-whatever="@getbootstrap">Editar</button></td>
+                    <?php endif ?>
+
                     <td><a class="btn btn-info text-light" href="getProperty/<?php echo $property->id_property ?>">Ver más</a></td>
                 </tr>
 
@@ -110,7 +114,7 @@
                                         <input name="cityPropertyEdit" type="text" class="form-control"
                                             id="cityPropertyEdit" maxlength="45" pattern="[A-Za-z0-9\s]+" required></input>
                                     </div>
-                                   
+
                                     <input type="submit" class="btn btn-primary" value="Guarda Cambios"></input>
                                 </form>
                             </div>
