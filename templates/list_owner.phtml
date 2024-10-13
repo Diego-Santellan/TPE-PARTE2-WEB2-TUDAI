@@ -1,9 +1,9 @@
 <?php
 require_once './templates/layout/header.phtml';
 ?>
-<!--el controler me envia los duenios que el modelo pidio a la DB-->
+<!--el controler me envia el duenio que el modelo pidio a la DB-->
 <div class="container mt-5">
-    <h2 class="text-center mb-4">Dueños</h2>
+    <h2 class="text-center mb-4">Dueño</h2>
     <table class="table table-bordered table-striped">
         <thead class="table-header">
             <tr>
@@ -13,55 +13,15 @@ require_once './templates/layout/header.phtml';
             </tr>
         </thead>
         <tbody>
-            <!-- no es necesario hacer un foreach, trae un OBJETO   -->
-            <tr>
-                <td><?php echo $owner->name ?> </td>
-                <td><?php echo $owner->phone ?> </td>
-                <td><?php echo $owner->email ?> </td>
-
-                <?php if ($this->user) : ?>
-
-                    <td><a class="btn btn-danger" href="deteleOwner/<?php $owner->id_owner ?>">Eliminar</a></td>
-                    <td><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalOwnerEdit" data-bs-whatever="@getbootstrap">Editar</button></td>
-                <?php endif ?>
-
-            </tr>
+            <!-- no es necesario hacer un foreach, trae un OBJETO  solo   -->
+             <!-- la plantilla genera la tabla con el dueño y el modal de edicion de ese dueño  -->
+            <?php require_once './templates/item_list_owner_detail.phtml' ?>
         </tbody>
     </table>
 </div>
 
-<div class="modal fade" id="modalOwnerEdit" tabindex="-1" aria-labelledby="modalOwnerEditLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="modalOwnerEditLabel">Editar dueño</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <!-- updateOwner es una ruta del router -->
-                <form action="updateOwner" method="POST">
-                    <input type="hidden" name="id_owner" id="<?php echo $owner->id_owner ?>">
-                    <div class="mb-3">
-                        <label for="nameOwnerEdit" class="col-form-label">Nuevo nombre:</label>
-                        <input type="text" class="form-control" name="nameOwnerEdit" id="nameOwnerEdit">
-                    </div>
-                    <div class="mb-3">
-                        <label for="phoneOwnerEdit" class="col-form-label">Nuevo teléfono:</label>
-                        <input name="phoneOwnerEdit" type="tel" class="form-control" id="phoneOwnerEdit"></input>
-                    </div>
-                    <div class="mb-3">
-                        <label for="emailOwnerEdit" class="col-form-label">Nuevo email:</label>
-                        <input type="email" class="form-control" name="emailOwnerEdit" id="emailOwnerEdit"></input>
-                    </div>
-                    <input type="submit" class="btn btn-primary">Guarda Cambios</input>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-            </div>
-        </div>
-    </div>
 
-    <?php
-    require_once './templates/layout/footer.phtml';
-    ?>
+
+<?php
+require_once './templates/layout/footer.phtml';
+?>

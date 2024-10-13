@@ -20,6 +20,6 @@ class  PropertyView
     
     public function showError($mjsError)
     {
-        require_once("./templates/error_property.phtml");
+        require_once("./templates/error.phtml");
     }
 }

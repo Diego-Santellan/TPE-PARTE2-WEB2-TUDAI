@@ -49,10 +49,10 @@ class AuthController
             if ($isValid) {
                 $username = $_POST['usernameRegister'];
                 $password = $_POST['passwordRegister'];
+                $passwordHash = password_hash($password, PASSWORD_DEFAULT); //hasheo la contraseña que ingreso el us
 
                 // Verificar que el usuario está en la base de datos
                 $userFromDB = $this->model->getUserByUsername($username);
-                $passwordHash = password_hash($password, PASSWORD_DEFAULT); //hasheo la contraseña que ingreso el us
 
                 // verifica que el us no este en la DB  
                 if (!$userFromDB) {
@@ -66,8 +66,8 @@ class AuthController
                         $_SESSION['username'] =$user;
                         $_SESSION['LAST_ACTIVITY'] = time();
                         // Redirijo al home
-                        header('Location: ' . BASE_URL . 'getAllProperties'); //no se pone barra, lo pone el explode
-
+                        header('Location: ' . BASE_URL ); //no se pone barra, lo pone el explode
+                        exit();
                     }
                 } else {
                     return $this->view->showRegister('Ese usuario ya existe. No puede registrarse con ese nombre de usuario');
@@ -135,6 +135,7 @@ class AuthController
                         $_SESSION['LAST_ACTIVITY'] = time();
                         // Redirijo al home
                         header('Location: ' . BASE_URL);
+                        exit();
                     } else { //el usuario no existe en la DB
                         return $this->view->showLogin(error: 'Contraseña incorrectas');
                     }
@@ -153,5 +154,6 @@ class AuthController
         session_start(); // Va a buscar la cookie
         session_destroy(); // Borra la cookie que se buscó
         header('Location: ' . BASE_URL);
+        exit();
     }
 }
