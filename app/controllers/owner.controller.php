@@ -29,7 +29,7 @@ class OwnerController
     }
 
     public function getOwner($id)
-    {/* no lo pedia, pero lo hicimos. */
+    {
         // obtengo un dueños de la DB 
         $owner = $this->model->get($id);
 
@@ -38,7 +38,7 @@ class OwnerController
     }
 
     public function deleteOwner($id)
-    {/* no lo pedia, pero lo hicimos. */
+    {
 
         // obtengo un dueño de la DB 
         $owner = $this->model->get($id);
@@ -47,12 +47,12 @@ class OwnerController
         if (!$owner) { //no existe ,retorna null
             return $this->view->showError("No Existe el dueño con el id:. $id .");
         } else if ($this->model->HasProperties($id)) { //buscar si el dueño tiene propiedades
-            return $this->view->showError("No es posible eliminar si el dueño tiene propiedades");
+            return $this->view->showError("No es posible eliminar el dueño si  tiene propiedades");
         }
-        // no se puede borrar un duenio que tenga propiedades: ebido a una restricción de clave foránea en la db:eliminar una fila de la tabla duenio que está siendo referenciada en la tabla propiedad. La restricción de clave foránea impide la eliminación o actualización de un registro de la tabla duenio porque existen propiedades en la tabla propiedad que dependen de ese registro (id_owner)
 
+        // no se puede borrar un duenio que tenga propiedades: ebido a una restricción de clave foránea en la db:eliminar una fila de la tabla duenio que está siendo referenciada en la tabla propiedad. La restricción de clave foránea impide la eliminación o actualización de un registro de la tabla duenio porque existen propiedades en la tabla propiedad que dependen de ese registro (id_owner)
         $this->model->delete($id);
-        header('Location: ' . BASE_URL); /* PARA REDIRIJIR AL HOME UNA VEZ ELIMINADO EL DUEÑO */
+        header('Location: ' . BASE_URL .'getAllOwners'); /* PARA REDIRIJIR AL HOME UNA VEZ ELIMINADO EL DUEÑO */
         exit();
     }
 
@@ -127,11 +127,10 @@ class OwnerController
 
             if ($isValid) { // si los datos del usuario pasaron todas las validaciones 
                 $this->model->update($id, $name, $phone, $email);
-                header('Location: ' . BASE_URL);
+                header('Location: ' . BASE_URL .'getAllOwners');
                 exit();
             }
 
-            return  $this->getAllOwners();
         } else {
             return $this->view->showError("Se esperaba se usara el método POST");
         }
@@ -202,7 +201,7 @@ class OwnerController
 
             if ($isValid) { // si los datos del usuario pasaron todas las validaciones 
                 $this->model->add($name, $phone, $email);
-                header('Location: ' . BASE_URL);
+                header('Location: ' . BASE_URL .'getAllOwners');
                 exit();
             }
         } else {

@@ -1,0 +1,58 @@
+<tr>
+    <!-- cada fila de la tabla dueños  -->
+    <td><?php echo $owner->name ?> </td>
+    <td><?php echo $owner->phone ?> </td>
+    <td><?php echo $owner->email ?> </td>
+    <!-- ownerview recibe el orwner del controller -->
+
+<!-- isset comprueba si una variable ha sido declarada y si su valor no es null -->
+ <!-- si esta definida la variable owners renderiza ver mas info, si llega un dueño solo owners no existe entonces no se muestra el ver mas info del dueoño, si ya estoy en detalle del dueño no tiene sentid oun boton que diga ver mas info de ese dueño -->
+    <?php if (isset($owners)) : ?>
+        <td><a class="btn btn-info" href="getOwner/<?php echo $owner->id_owner ?>">Ver más info dueño </a></td>
+    <?php endif ?>
+
+    <?php if ($this->user) : ?>
+
+        <td><a class="btn btn-danger" href="deleteOwner/<?php echo $owner->id_owner ?>">Eliminar</a></td>
+        <td><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalOwnerEdit<?php echo $owner->id_owner ?>" data-bs-whatever="@getbootstrap">Editar</button></td>
+    <?php endif ?>
+
+    <!-- getAllPropertiesForOwner(es la accion del formulario que tiene el select para Seleccionar la categoria del item,ese form lo mando por get -->
+    <!-- filterOwner identifica a la opcion elegida con ese nombre q tiene como valor el id del dueño -->
+    <td><a class="btn btn-info text-light" href="getAllPropertiesForOwner?filterOwner=<?php echo $owner->id_owner ?>">Ver propiedades</a></td>
+
+</tr>
+
+<!-- modal de edicion -->
+<div class="modal fade" id="modalOwnerEdit<?php echo $owner->id_owner ?>" tabindex="-1" aria-labelledby="modalOwnerEditLabel<?php echo $owner->id_owner ?>" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="modalOwnerEditLabel<?php echo $owner->id_owner ?>">Editar dueño <?php echo $owner->name ?>:</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- updateOwner es una ruta del router -->
+                <form action="updateOwner/<?php echo $owner->id_owner ?>" method="POST">
+                    <input type="hidden" name="id_owner" id="<?php echo $owner->id_owner ?>">
+                    <div class="mb-3">
+                        <label for="nameOwnerEdit" class="col-form-label">Nuevo nombre:</label>
+                        <input type="text" class="form-control" name="nameOwnerEdit" id="nameOwnerEdit">
+                    </div>
+                    <div class="mb-3">
+                        <label for="phoneOwnerEdit" class="col-form-label">Nuevo teléfono:</label>
+                        <input name="phoneOwnerEdit" type="tel" class="form-control" id="phoneOwnerEdit"></input>
+                    </div>
+                    <div class="mb-3">
+                        <label for="emailOwnerEdit" class="col-form-label">Nuevo email:</label>
+                        <input type="email" class="form-control" name="emailOwnerEdit" id="emailOwnerEdit"></input>
+                    </div>
+                    <input type="submit" class="btn btn-primary" value="Guarda Cambios"></input>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -5,17 +5,7 @@ class PropertyModel extends ModelConectDB
 { // Cada modelo hijo hereda de la clase padre la conexion a la DB,seria el paso 1 para no reprtir codigo, la clase padre abre la conexion a la bd
 
 
-    public function getAllOwnnerProperties()
-    {
-        // 2. Ejecuto la consulta y obtengo la columna id_owner para obtner los id de los clientes de propiedades
-        $query = $this->db->prepare('SELECT id_owner FROM properties');
-        $query->execute();
-
-        // 3. Obtengo los datos en un arreglo de objetos
-        $propertiesOwners = $query->fetchAll(PDO::FETCH_OBJ);
-
-        return $propertiesOwners;
-    }
+   
     public function getAll()
     {
         // 2. Ejecuto la consulta
@@ -53,6 +43,9 @@ class PropertyModel extends ModelConectDB
         // 2. Ejecuto la consulta
         $query = $this->db->prepare('DELETE FROM propiedad WHERE id_property = ?');
         $query->execute([$id]);
+
+        $id = $this->db->lastInsertId();
+        return $id;
     }
     public function update($id_property, $type, $zone, $price, $description, $mode, $status, $city, $id_owner)
     {

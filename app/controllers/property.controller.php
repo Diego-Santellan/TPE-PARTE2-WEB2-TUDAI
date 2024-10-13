@@ -58,8 +58,7 @@ class PropertyController
     }
 
     public function getProperty($id)
-    {/* no lo pedia, pero lo hicimos. */
-        // obtengo una propiedad de la DB 
+    {        // obtengo una propiedad de la DB 
         $property = $this->model->get($id);
 
         // mando la propiedad a la vista 
@@ -75,11 +74,10 @@ class PropertyController
         // chequear si existe lo que se quiere borrar 
         if (!$property) { //no existe ,retorna null
             return $this->view->showError("No Existe la propiedad con el id: $id ");
-        } //se puede eliminar una propiedad si tiene duenio, no se puede al revés ? es asi?
-
+        } //se puede eliminar una propiedad si tiene duenio
 
         $this->model->delete($id);
-        header('Location: ' . BASE_URL . '/getAllProperties'); /* PARA REDIRIJIR AL HOME UNA VEZ ELIMINADA  la propiedad */
+        header('Location: ' . BASE_URL ); /* PARA REDIRIJIR AL HOME UNA VEZ ELIMINADA  la propiedad */
         exit();
     }
 
@@ -189,12 +187,12 @@ class PropertyController
             //Validar que el modo no exceda los 20 caracteres
             if (strlen($mode) > 20) {
                 $isValid = false;
-                return $this->view->showError(mjsError: "El campo zona no puede exceder los 20 caracteres");
+                return $this->view->showError(mjsError: "El campo modo no puede exceder los 20 caracteres");
             }
             // Validar que sólo contenga letras y espacios
             if (!preg_match("/^[A-Za-z\s]+$/", $mode)) {
                 $isValid = false;
-                return $this->view->showError(mjsError: "El campo tipo sólo puede contener letras y espacios");
+                return $this->view->showError(mjsError: "El campo modo sólo puede contener letras y espacios");
             }
 
 
@@ -250,7 +248,7 @@ class PropertyController
 
             if ($isValid) { // si los datos del usuario pasaron todas las validaciones 
                 $this->model->update($id, $type, $zone, $price, $description, $mode, $status, $city, $id_owner);
-                header(header: 'Location: ' . BASE_URL . '/getAllProperties');
+                header(header: 'Location: ' . BASE_URL );
                 exit();
             }
             return  $this->getAllproperties();
@@ -368,12 +366,12 @@ class PropertyController
             //Validar que el modo no exceda los 20 caracteres
             if (strlen($mode) > 20) {
                 $isValid = false;
-                return $this->view->showError(mjsError: "El campo zona no puede exceder los 20 caracteres");
+                return $this->view->showError(mjsError: "El campo modo no puede exceder los 20 caracteres");
             }
             // Validar que sólo contenga letras y espacios
             if (!preg_match("/^[A-Za-z\s]+$/", $mode)) {
                 $isValid = false;
-                return $this->view->showError(mjsError: "El campo tipo sólo puede contener letras y espacios");
+                return $this->view->showError(mjsError: "El campo modo sólo puede contener letras y espacios");
             }
 
 

@@ -19,6 +19,6 @@ class  OwnerView
     }
     public function showError($mjsError)
     {
-        require_once './templates/error_owner.phtml';  
+        require_once './templates/error.phtml';  
 }
 }

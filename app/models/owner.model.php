@@ -22,7 +22,7 @@ class OwnerModel extends ModelConectDB
         $query = $this->db->prepare('SELECT * FROM duenio WHERE id_owner = ?');
         $query->execute([$id]);
 
-        // 3. Obtengo los datos en un arreglo de objetos
+        // 3. Obtengo los datos en un objeto 
         $owner = $query->fetch(PDO::FETCH_OBJ);
 
         return $owner; // Si no encuentra ningún registro en la base de datos con el ID proporcionado, fetch() devolverá false.
