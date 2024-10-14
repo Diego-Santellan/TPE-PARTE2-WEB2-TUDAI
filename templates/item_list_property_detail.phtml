@@ -3,11 +3,11 @@
     <td><?php echo $property->zone ?></td>
     <td><?php echo $property->price ?></td>
     <td>
-    <?php if (isset($properties)): ?>
-        <?php echo substr($property->description, 0, 20) ?>...
-    <?php else :?>
-        <?php echo $property->description ?>
-    <?php endif ?>
+        <?php if (isset($properties)): ?>
+            <?php echo substr($property->description, 0, 20) ?>...
+        <?php else : ?>
+            <?php echo $property->description ?>
+        <?php endif ?>
     </td>
     <td><?php echo $property->mode ?></td>
     <td><?php echo $property->status ?></td>
@@ -20,7 +20,7 @@
     <?php endif ?>
     <!-- si trae mas de una propiedad muestra ver mas, sino si trae solo una no pq ya esta en ver detalle  -->
     <?php if (isset($properties)): ?>
-        <td><a class="btn btn-info text-light" href="getProperty/<?php echo $property->id_property ?>">Ver más</a></td>
+        <td><a class="btn btn-info text-light" href="property/<?php echo $property->id_property ?>">Ver más</a></td>
     <?php endif ?>
 </tr>
 
@@ -43,11 +43,10 @@
                         <select class="form-select" id="typePropertyEdit" name="typePropertyEdit"
                             maxlength="20" pattern="[A-Za-z\s]+" required>
                             <option selected disabled>Actualice el tipo de propiedad</option>
-
-                            <option value="apartament">DEPARTAMENTO</option>
-                            <option value="house">CASA</option>
-                            <option value="lot">LOTE</option>
-                            <option value="countryHouse">QUINTA</option>
+                            <option value="departamento">DEPARTAMENTO</option>
+                            <option value="casa">CASA</option>
+                            <option value="lote">LOTE</option>
+                            <option value="quinta">QUINTA</option>
                         </select>
                     </div>
                     <div class="mb-3">
@@ -59,13 +58,13 @@
                         <label for="pricePropertyEdit" class="col-form-label">Nuevo precio:</label>
                         <input type="number" class="form-control" name="pricePropertyEdit"
                             id="pricePropertyEdit" required pattern="[0-9]{1,10}" min="0"
-                            max="9999999999"></input>
+                            max="9999999999" maxlength="10"></input>
                     </div>
                     <div class="mb-3">
                         <label for="descriptionPropertyEdit" class="col-form-label">Nueva descripción
                             :</label>
                         <input name="descriptionPropertyEdit" type="text" class="form-control"
-                            id="descriptionPropertyEdit" maxlength="500" pattern="[A-Za-z0-9,.\\s]+"
+                            id="descriptionPropertyEdit" maxlength="500"
                             required></input>
                     </div>
                     <div class="mb-3">
@@ -73,26 +72,33 @@
                         <select class="form-select" id="modePropertyEdit" name="modePropertyEdit"
                             maxlength="20" pattern="[A-Za-z\s]+" required>
                             <option selected disabled>Actualice la modalidad de la propiedad</option>
-
-                            <option value="sell">VENTA</option>
-                            <option value="rent">ALQUILER</option>
+                            <option value="venta">VENTA</option>
+                            <option value="alquiler">ALQUILER</option>
                         </select>
                     </div>
                     <div class="mb-3">
                         <label for="statusPropertyEdit" class="col-form-label">Nuevo estado:</label>
                         <select class="form-select" id="statusPropertyEdit" name="statusPropertyEdit"
                             maxlength="20" pattern="[A-Za-z\s]+" required>
-                            <option selected disabled>Actualice la modalidad de la propiedad</option>
-
-                            <option value="sold">VENDIDO</option>
-                            <option value="rented">ALQUILADO</option>
-                            <option value="available">DISPONIBLE</option>
+                            <option selected disabled>Actualice el estado de la propiedad</option>
+                            <option value="vendido">VENDIDO</option>
+                            <option value="alquilado">ALQUILADO</option>
+                            <option value="disponible">DISPONIBLE</option>
                         </select>
                     </div>
                     <div class="mb-3">
                         <label for="cityPropertyEdit" class="col-form-label">Nueva ciudad :</label>
                         <input name="cityPropertyEdit" type="text" class="form-control"
                             id="cityPropertyEdit" maxlength="45" pattern="[A-Za-z0-9\s]+" required></input>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold" for="id_ownerPropertyEdit">ID Dueño:</label>
+                        <select class="form-control" type="number" id="id_ownerPropertyEdit" name="id_ownerPropertyEdit" required>
+                            <option selected>Cambie la categoría/dueño</option>
+                            <?php foreach ($owners as $owner): ?>
+                                <option value="<?php echo $owner->id_owner ?>"><?php echo $owner->name ?> </option>
+                            <?php endforeach ?>
+                        </select>
                     </div>
 
                     <input type="submit" class="btn btn-primary" value="Guarda Cambios"></input>

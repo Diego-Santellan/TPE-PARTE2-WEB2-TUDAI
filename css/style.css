@@ -9,7 +9,7 @@ main{
     min-height: 60vh;
 }
 
-.errorMessage{
+body main h1.errorMessage{
     color: red;
     margin-top: 50px;
     text-align:center ;

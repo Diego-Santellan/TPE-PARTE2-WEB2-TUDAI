@@ -8,7 +8,7 @@
 <!-- isset comprueba si una variable ha sido declarada y si su valor no es null -->
  <!-- si esta definida la variable owners renderiza ver mas info, si llega un dueño solo owners no existe entonces no se muestra el ver mas info del dueoño, si ya estoy en detalle del dueño no tiene sentid oun boton que diga ver mas info de ese dueño -->
     <?php if (isset($owners)) : ?>
-        <td><a class="btn btn-info" href="getOwner/<?php echo $owner->id_owner ?>">Ver más info dueño </a></td>
+        <td><a class="btn btn-info" href="owner/<?php echo $owner->id_owner ?>">Ver más info dueño </a></td>
     <?php endif ?>
 
     <?php if ($this->user) : ?>
@@ -17,9 +17,9 @@
         <td><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalOwnerEdit<?php echo $owner->id_owner ?>" data-bs-whatever="@getbootstrap">Editar</button></td>
     <?php endif ?>
 
-    <!-- getAllPropertiesForOwner(es la accion del formulario que tiene el select para Seleccionar la categoria del item,ese form lo mando por get -->
+    <!-- propertiesForOwner(es la accion del formulario que tiene el select para Seleccionar la categoria del item,ese form lo mando por get -->
     <!-- filterOwner identifica a la opcion elegida con ese nombre q tiene como valor el id del dueño -->
-    <td><a class="btn btn-info text-light" href="getAllPropertiesForOwner?filterOwner=<?php echo $owner->id_owner ?>">Ver propiedades</a></td>
+    <td><a class="btn btn-info text-light" href="propertiesForOwner?filterOwner=<?php echo $owner->id_owner ?>">Ver propiedades</a></td>
 
 </tr>
 
@@ -34,18 +34,18 @@
             <div class="modal-body">
                 <!-- updateOwner es una ruta del router -->
                 <form action="updateOwner/<?php echo $owner->id_owner ?>" method="POST">
-                    <input type="hidden" name="id_owner" id="<?php echo $owner->id_owner ?>">
+                    <input type="hidden" name="id_owner" id="<?php echo $owner->id_owner ?>" required>
                     <div class="mb-3">
                         <label for="nameOwnerEdit" class="col-form-label">Nuevo nombre:</label>
-                        <input type="text" class="form-control" name="nameOwnerEdit" id="nameOwnerEdit">
+                        <input type="text" class="form-control" name="nameOwnerEdit" id="nameOwnerEdit" required maxlength="50">
                     </div>
                     <div class="mb-3">
                         <label for="phoneOwnerEdit" class="col-form-label">Nuevo teléfono:</label>
-                        <input name="phoneOwnerEdit" type="tel" class="form-control" id="phoneOwnerEdit"></input>
+                        <input name="phoneOwnerEdit" type="tel" class="form-control" id="phoneOwnerEdit" maxlength="20" pattern="[a-zA-Z0-9\s]+" required ></input>
                     </div>
                     <div class="mb-3">
                         <label for="emailOwnerEdit" class="col-form-label">Nuevo email:</label>
-                        <input type="email" class="form-control" name="emailOwnerEdit" id="emailOwnerEdit"></input>
+                        <input type="email" class="form-control" name="emailOwnerEdit" id="emailOwnerEdit" required maxlength="80"></input>
                     </div>
                     <input type="submit" class="btn btn-primary" value="Guarda Cambios"></input>
                 </form>

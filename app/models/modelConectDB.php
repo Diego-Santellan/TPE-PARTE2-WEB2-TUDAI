@@ -17,7 +17,7 @@ class ModelConectDB { //clase padre
             // Establecer el modo de error de PDO a excepción  
             $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (PDOException $e) { 
-            //$e->getMessage(): es un método nativo de la clase Exception (de la cual PDOException hereda). Este método devuelve un mensaje de error que describe la excepción. Proporciona información específica sobre lo que salió mal, como un error de conexión, un error en la consulta SQL. 
+            //$e->getMessage(): un método nativo de la clase Exception (de la cual PDOException hereda). Este método devuelve un mensaje de error que describe la excepción. Proporciona información específica sobre lo que salió mal, como un error de conexión, un error en la consulta SQL. 
             echo "Error de conexión: " . $e->getMessage();
             exit; // Termina la ejecución del script en caso de error
         }

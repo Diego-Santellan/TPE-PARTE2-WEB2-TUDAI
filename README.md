@@ -19,7 +19,7 @@ Las entidades principales de la base de datos son **propiedades** y **dueños**.
 - **Tabla propiedades**: Contiene información sobre las propiedades inmobiliarias.
 - **Tabla dueños**: Almacena información sobre los dueños de las propiedades.
 
-La relación entre estas tablas es de **1 a N**, lo que significa que un dueño puede tener múltiples propiedades, pero una propiedad solo puede pertenecer a un dueño.
+La relación entre estas tablas es de **1 a N**, lo que significa que un dueño puede tener múltiples propiedades, pero una propiedad sólo puede pertenecer a un dueño.
 
 ### Atributos de la tabla `duenio`:
 - `id_owner`: `int(11)` (Primary key)
