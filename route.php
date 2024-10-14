@@ -8,12 +8,12 @@ require_once './app/controllers/auth.controller.php';
 require_once './app/controllers/owner.controller.php';
 require_once './app/controllers/property.controller.php';
 
-// Base_url para redirecciones y base tag. Base URL: es el localhost , el dominio en desarrollo
+// Base_URL para redirecciones y base tag. Base URL: es el localhost , el dominio en desarrollo
 define('BASE_URL', '//' . $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'] . dirname($_SERVER['PHP_SELF']) . '/');
 
 $res = new Response();
 
-$action = 'getAllProperties'; // Acción por defecto si no se envía ninguna
+$action = 'properties'; // Acción por defecto si no se envía ninguna
 if (!empty($_GET['action'])) {
     $action = $_GET['action'];
 }
@@ -23,16 +23,16 @@ $params = explode('/', $action);
 
 // TABLA DE RUTEO
 
-// getAllOwners             - Obtener todos los dueños.
-// getOwner/:ID             - Obtener un dueño especificado por ID.
+// owners                   - Obtener todos los dueños.
+// owner/:ID                - Obtener un dueño especificado por ID.
 // deleteOwner/:ID          - Eliminar un dueño especificado por ID.
 // updateOwner/:ID          - Actualizar un dueño especificado por ID.
 // addOwner                 - Agregar un nuevo dueño.
-// getAllProperties         - Obtener todas las propiedades.
-// getProperty/:ID          - Obtener una propiedad específica por ID.
-// getAllPropertiesForOwner - Obtener todas las propiedades de un dueño especificado.
-// deleteProperty/:ID       - Eliminar una propiedad específica por ID.
-// updateProperty/:ID       - Actualizar una propiedad específica por ID.
+// properties               - Obtener todas las propiedades.
+// property/:ID             - Ver informacion de una propiedad específicada por ID.
+// propertiesForOwner       - Obtener todas las propiedades de un dueño especificado.
+// deleteProperty/:ID       - Eliminar una propiedad específicada por ID.
+// updateProperty/:ID       - Actualizar una propiedad específicada por ID.
 // addProperty              - Agregar una nueva propiedad.
 // showRegister             - Mostrar el formulario de registro de usuario.
 // register                 - Registrar un nuevo usuario.
@@ -44,22 +44,21 @@ $params = explode('/', $action);
 
 
 switch ($params[0]) {
-
         // lado 1 de la relación: dueño(Categorías) . 
-    case 'getAllOwners':
+    case 'owners':
         sessionAuthMiddleware($res); // Setea $res->user si existe session
         // verifyAuthMiddleware($res); // Verifica que el usuario esté logueado o redirige a login
         $controller = new OwnerController($res);
-        $controller->getAllOwners();
+        $controller->owners();
         break;
 
-    case 'getOwner':
+    case 'owner':
         sessionAuthMiddleware($res);
         // verifyAuthMiddleware($res);
         $controller = new OwnerController($res);
         if (isset($params[1])) { //verifica que el parametro este setado
-            // Antes de usar $params[1] en acciones como getOwner, deleteOwner, updateOwner, se debe verificar si el índice existe para evitar errores si no se proporciona el parámetro.
-            $controller->getOwner($params[1]);
+            // Antes de usar $params[1] en acciones como owner, deleteOwner, updateOwner, se debe verificar si el índice existe para evitar errores si no se proporciona el parámetro.
+            $controller->owner($params[1]);
         } else {
             $controller->showError("El parámetro no puede estar vacío");
         }
@@ -81,7 +80,11 @@ switch ($params[0]) {
         verifyAuthMiddleware($res);
         $controller = new OwnerController($res);
         if (isset($params[1])) {
-            $controller->updateOwner($params[1]);
+            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                $controller->updateOwner($params[1]);
+            } else {
+                return $controller->showError("Se esperaba se usara el método POST");
+            }
         } else {
             $controller->showError("El parámetro no puede estar vacío");
         }
@@ -90,36 +93,45 @@ switch ($params[0]) {
     case 'addOwner':
         sessionAuthMiddleware($res);
         verifyAuthMiddleware($res);
-        $controller = new OwnerController($res);
-        $controller->addOwner();
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+            $controller = new OwnerController($res);
+            $controller->addOwner();
+        } else {
+            return $controller->showError("Se esperaba se usara el método POST");
+        }
         break;
 
         // lado N de la relacion: propiedades(items) . 
-    case 'getAllProperties':
+    case 'properties':
         // puede verse sin estar loggeado 
         sessionAuthMiddleware($res);
         // verifyAuthMiddleware($res);
         $controller = new PropertyController($res);
-        $controller->getAllProperties();
+        $controller->properties();
         break;
 
-    case 'getProperty':
+    case 'property':
         sessionAuthMiddleware($res);
         // verifyAuthMiddleware($res);
         $controller = new PropertyController($res);
         if (isset($params[1])) {
-            $controller->getProperty($params[1]);
+            $controller->property($params[1]);
         } else {
             $controller->showError("El parámetro no puede estar vacío");
         }
         break;
 
 
-    case 'getAllPropertiesForOwner': // es el action de filter_properties(form con el select)
+    case 'propertiesForOwner': // es el action de filter_properties(form con el select)
         sessionAuthMiddleware($res);
         // verifyAuthMiddleware($res);
-        $controller = new PropertyController($res);
-        $controller->getAllPropertiesForOwner();
+        if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+            $controller = new PropertyController($res);
+            $controller->propertiesForOwner();
+        } else {
+            return $controller->showError("Se esperaba se usara el método GET");
+        }
         break;
 
     case 'deleteProperty': /* Realizar una acción como recargar la pagina al eliminar un elemento... en caso de que no se pueda avisar y detallar*/
@@ -138,7 +150,11 @@ switch ($params[0]) {
         verifyAuthMiddleware($res);
         $controller = new PropertyController($res);
         if (isset($params[1])) {
-            $controller->updateProperty($params[1]);
+            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                $controller->updateProperty($params[1]);
+            } else {
+                return $controller->showError("Se esperaba se usara el método POST");
+            }
         } else {
             $controller->showError("El parámetro no puede estar vacío");
         }
@@ -148,7 +164,11 @@ switch ($params[0]) {
         sessionAuthMiddleware($res);
         verifyAuthMiddleware($res);
         $controller = new PropertyController($res);
-        $controller->addProperty();
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $controller->addProperty();
+        } else {
+            return $controller->showError("Se esperaba se usara el método POST");
+        }
         break;
 
     case 'showRegister':
@@ -160,7 +180,6 @@ switch ($params[0]) {
         $controller = new AuthController();
         $controller->register();
         break;
-
 
     case 'showLogin': // si el midleware de auth entra en el else(el usuario no esta logueado te manda al showLogin )
         $controller = new AuthController();

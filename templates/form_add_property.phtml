@@ -7,50 +7,56 @@
         <div class="mb-3">
 
             <label class="form-label fw-bold" for="typePropertyAdd">Tipo de propiedad:</label>
-            <select class="form-select" id="typePropertyAdd" name="typePropertyAdd" required>
-                <option value="apartament">DEPARTAMENTO</option>
-                <option value="house">CASA</option>
-                <option value="lot">LOTE</option>
-                <option value="countryHouse">QUINTA</option>
+            <select class="form-select" id="typePropertyAdd" name="typePropertyAdd" maxlength="20" pattern="[A-Za-z\s]+" required>
+                <option selected disabled>Agregue tipo de propiedad</option>
+
+                <option value="departamento">DEPARTAMENTO</option>
+                <option value="casa">CASA</option>
+                <option value="lote">LOTE</option>
+                <option value="quinta">QUINTA</option>
             </select>
         </div>
 
         <div class="mb-3">
             <label class="form-label fw-bold" for="zonePropertyAdd">Zona:</label>
-            <input class="form-control" type="text" id="zonePropertyAdd" name="zonePropertyAdd" maxlength="45" required>
+            <input class="form-control" type="text" id="zonePropertyAdd" name="zonePropertyAdd" maxlength="45" pattern="[A-Za-z0-9\s]+" required>
         </div>
         <div class="mb-3">
             <label class="form-label fw-bold" for="pricePropertyAdd">Precio sin decimales en USD:</label>
             <input class="form-control" type="number" id="pricePropertyAdd" name="pricePropertyAdd" min="0"
-                max="9999999999" maxlength="10" required>
+                max="9999999999" required maxlength="10" pattern="[0-9]{1,10}">
         </div>
         <div class="mb-3">
             <label class="form-label fw-bold" for="descriptionPropertyAdd">Descripción:</label>
             <input class="form-control" type="text" id="descriptionPropertyAdd" name="descriptionPropertyAdd"
-                maxlength="500" rows="4" cols="50" required>
+                 rows="4" cols="50" required maxlength="500" >
         </div>
         <div class="mb-3">
             <label class="form-label fw-bold" for="modePropertyAdd">Modalidad:</label>
-            <select class="form-select" id="modePropertyAdd" name="modePropertyAdd" required>
-                <option value="sell">VENTA</option>
-                <option value="rent">ALQUILER</option>
+            <select class="form-select" id="modePropertyAdd" name="modePropertyAdd" pattern="[A-Za-z\s]+" maxlength="20" required >
+                <option selected disabled>Agregue modalidad de la propiedad</option>
+
+                <option value="venta">VENTA</option>
+                <option value="alquiler">ALQUILER</option>
             </select>
         </div>
         <div class="mb-3">
             <label class="form-label fw-bold" for="statusPropertyAdd">Estado:</label>
-            <select class="form-select" id="statusPropertyAdd" name="statusPropertyAdd" required>
-                <option value="sold">VENDIDO</option>
-                <option value="rented">ALQUILADO</option>
-                <option value="available">DISPONIBLE</option>
+            <select class="form-select" id="statusPropertyAdd" name="statusPropertyAdd" required pattern="[A-Za-z\s]+" maxlength="20">                
+                <option selected disabled>Agregue el estado de la propiedad</option>
+
+                <option value="vendido">VENDIDO</option>
+                <option value="alquilado">ALQUILADO</option>
+                <option value="disponible">DISPONIBLE</option>
             </select>
         </div>
         <div class="mb-3">
             <label class="form-label fw-bold" for="cityPropertyAdd">Localidad:</label>
-            <input class="form-control" type="text" id="cityPropertyAdd" name="cityPropertyAdd" maxlength="45" required>
+            <input class="form-control" type="text" id="cityPropertyAdd" name="cityPropertyAdd" pattern="[A-Za-z0-9\s]+" required maxlength="45" >
         </div>
         <div class="mb-3">
             <label class="form-label fw-bold" for="id_ownerPropertyAdd">ID Dueño:</label>
-            <select class="form-control" type="number" id="id_ownerPropertyAdd" name="id_ownerPropertyAdd" required>
+            <select class="form-control" type="number" id="id_ownerPropertyAdd" name="id_ownerPropertyAdd" required >
             <option selected>Selecciona la categoría/dueño</option>
             <?php foreach ($owners as $owner): ?>
                     <option value="<?php echo $owner->id_owner ?>"><?php echo $owner->name ?> </option>
