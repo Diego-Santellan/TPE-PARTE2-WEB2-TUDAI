@@ -1,8 +1,8 @@
 <tr>
     <!-- cada fila de la tabla dueños  -->
-    <td><?php echo $owner->name ?> </td>
-    <td><?php echo $owner->phone ?> </td>
-    <td><?php echo $owner->email ?> </td>
+    <td><?php echo htmlspecialchars($owner->name) ?> </td>
+    <td><?php echo htmlspecialchars($owner->phone) ?> </td> 
+    <td><?php echo htmlspecialchars($owner->email) ?> </td>
     <!-- ownerview recibe el orwner del controller -->
 
 <!-- isset comprueba si una variable ha sido declarada y si su valor no es null -->
@@ -11,15 +11,15 @@
         <td><a class="btn btn-info" href="owner/<?php echo $owner->id_owner ?>">Ver más info dueño </a></td>
     <?php endif ?>
 
-    <?php if ($this->user) : ?>
+    <?php if (isset($this->user)) : ?>
 
-        <td><a class="btn btn-danger" href="deleteOwner/<?php echo $owner->id_owner ?>">Eliminar</a></td>
+        <td><a class="btn btn-danger" href="deleteOwner/<?php echo $owner->id_owner ?>">Eliminar dueño</a></td>
         <td><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalOwnerEdit<?php echo $owner->id_owner ?>" data-bs-whatever="@getbootstrap">Editar</button></td>
     <?php endif ?>
 
-    <!-- propertiesForOwner(es la accion del formulario que tiene el select para Seleccionar la categoria del item,ese form lo mando por get -->
-    <!-- filterOwner identifica a la opcion elegida con ese nombre q tiene como valor el id del dueño -->
-    <td><a class="btn btn-info text-light" href="propertiesForOwner?filterOwner=<?php echo $owner->id_owner ?>">Ver propiedades</a></td>
+    <!-- propertiesForOwner(es el action del formulario que tiene el select para Seleccionar la categoria del item,ese form lo mando por get -->
+    <!-- filterOwner identifica a la opcion elegida con ese NAME q tiene como valor el id del dueño (LA OPTION q el us selecciono del select) -->
+    <td><a class="btn btn-info text-light" href="propertiesForOwner?filterOwner=<?php echo $owner->id_owner ?>">Ver propiedades de ese dueño</a></td>
 
 </tr>
 

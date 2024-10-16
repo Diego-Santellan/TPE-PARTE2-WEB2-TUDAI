@@ -2,13 +2,13 @@
 
 <div class="d-flex justify-content-center">
     <!-- en action va la ruta accion(URL) -->
-    <form action="addProperty" method="post" id="formProperty"
+    <form action="addProperty" method="POST" id="formProperty"
         class="needs-validation p-4 bg-light border border-secondary rounded shadow w-50">
         <div class="mb-3">
 
             <label class="form-label fw-bold" for="typePropertyAdd">Tipo de propiedad:</label>
             <select class="form-select" id="typePropertyAdd" name="typePropertyAdd" maxlength="20" pattern="[A-Za-z\s]+" required>
-                <option selected disabled>Agregue tipo de propiedad</option>
+                <option value="" selected disabled>Agregue tipo de propiedad</option>
 
                 <option value="departamento">DEPARTAMENTO</option>
                 <option value="casa">CASA</option>
@@ -34,8 +34,7 @@
         <div class="mb-3">
             <label class="form-label fw-bold" for="modePropertyAdd">Modalidad:</label>
             <select class="form-select" id="modePropertyAdd" name="modePropertyAdd" pattern="[A-Za-z\s]+" maxlength="20" required >
-                <option selected disabled>Agregue modalidad de la propiedad</option>
-
+                <option value="" selected disabled>Agregue modalidad de la propiedad</option>
                 <option value="venta">VENTA</option>
                 <option value="alquiler">ALQUILER</option>
             </select>
@@ -43,8 +42,7 @@
         <div class="mb-3">
             <label class="form-label fw-bold" for="statusPropertyAdd">Estado:</label>
             <select class="form-select" id="statusPropertyAdd" name="statusPropertyAdd" required pattern="[A-Za-z\s]+" maxlength="20">                
-                <option selected disabled>Agregue el estado de la propiedad</option>
-
+                <option value="" selected disabled>Agregue el estado de la propiedad</option>
                 <option value="vendido">VENDIDO</option>
                 <option value="alquilado">ALQUILADO</option>
                 <option value="disponible">DISPONIBLE</option>
@@ -57,7 +55,7 @@
         <div class="mb-3">
             <label class="form-label fw-bold" for="id_ownerPropertyAdd">ID Dueño:</label>
             <select class="form-control" type="number" id="id_ownerPropertyAdd" name="id_ownerPropertyAdd" required >
-            <option selected>Selecciona la categoría/dueño</option>
+            <option value="" disabled selected>Selecciona la categoría/dueño</option>
             <?php foreach ($owners as $owner): ?>
                     <option value="<?php echo $owner->id_owner ?>"><?php echo $owner->name ?> </option>
                 <?php endforeach ?>

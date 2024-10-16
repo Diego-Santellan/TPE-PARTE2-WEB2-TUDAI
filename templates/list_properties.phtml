@@ -1,7 +1,8 @@
 <!-- se van renderizando los siguientes templates antes que la tabla -:header,formualri para agregar propiedad-->
 <?php require_once './templates/layout/header.phtml'; ?>
 <!-- si existe un usuraio (si esta logeado),muesta el formulario para agregar una propiedad -->
-<?php if ($this->user) : ?>
+<!-- isset($this->user)  verificar si la variable $this->user está definida. Esto evita el error de "variable indefinida" en caso de que $this->user no haya sido asignada aún. -->
+<?php if (isset($this->user)) : ?>
     <?php require_once './templates/form_add_property.phtml'; ?>
 <?php endif ?>
 
@@ -20,14 +21,12 @@
                 <th>Modalidad</th>
                 <th>Estado</th>
                 <th>Ciudad</th>
-                <th>Dueño</th>
                 <th colspan="3" class="text-center">Acción</th>
             </tr>
         </thead>
         <tbody>
             <?php foreach ($properties as $property): ?>
                 <?php require './templates/item_list_property_detail.phtml' ?>
-
             <?php endforeach ?>
         </tbody>
     </table>

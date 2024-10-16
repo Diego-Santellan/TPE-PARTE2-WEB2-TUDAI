@@ -1,10 +1,12 @@
 <form action="propertiesForOwner" method="GET">
     <div class="form-floating">
+        <!-- este formulario llama a filterForOwner al ser enviado(ruta), el form se envia por get. el form tiene un select con option, cada option son los nombres de los dueños. El select tiene el name "filterOwner. como se envian los datos al servidor con el metodo get filterOwner sera un parametro visible en la URL,va a ser la clave y el valor sera la opcion seleccionada por el usuario en el seletc desplegable  -->
         <select class="form-select" id="filterOwner" name="filterOwner" aria-label="Floating label select example">
-            <option selected>Selecciona la categoría/dueño del item</option>
+            <option value="" selected disabled>Selecciona la categoría/dueño del item(propiedad)</option>
             <?php foreach ($owners as $owner) : ?>
                 <!-- por cada owner genera cada opción del select  -->
                 <option value='<?php echo $owner->id_owner ?>'><?php echo $owner->name ?></option>
+                <!-- <option value="19">Jose</option> -->
             <?php endforeach ?>
         </select>
         <label for="filterOwner">Ver propiedades por dueño</label>

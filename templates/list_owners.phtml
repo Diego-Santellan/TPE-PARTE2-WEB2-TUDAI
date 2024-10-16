@@ -1,6 +1,6 @@
 <?php require_once './templates/layout/header.phtml' ?>
 
-<?php if ($this->user) : ?>
+<?php if (isset($this->user)) : ?>
     <?php require_once './templates/form_add_owner.phtml' ?>
 <?php endif ?>
 
@@ -17,9 +17,9 @@
         </thead>
         <tbody>
             <?php foreach ($owners as $owner): ?>
-                <!-- require_once lo requiere una sola vez y genra una sola fila por eso se usa requiere -->
-               <?php require './templates/item_list_owner_detail.phtml'?></a>
-            <?php endforeach  ?>
+                <!-- require_once asegura que el archivo se incluya solo una vez en el ciclo de vida de la página, no es adecuado aquí. Si se usa require_once dentro del foreach, evita que la plantilla se cargue más de una vez, por lo que solo aparecerá un único dueño (la primera iteración).              
+                  <?php require './templates/item_list_owner_detail.phtml'?>
+            <?php endforeach;?>
         </tbody>
     </table>
 </div>
