@@ -137,7 +137,7 @@ class AuthController
                         header('Location: ' . BASE_URL);
                         exit();
                     } else { //el usuario no existe en la DB
-                        return $this->view->showLogin(error: 'Contraseña incorrectas');
+                        return $this->view->showLogin(error: 'Credenciales incorrectas');
                     }
                 } else {
                     // agregar btn a registrar 

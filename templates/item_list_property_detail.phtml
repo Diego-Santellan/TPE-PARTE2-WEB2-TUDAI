@@ -1,26 +1,28 @@
 <tr>
-    <td><?php echo $property->type ?></td>
-    <td><?php echo $property->zone ?></td>
-    <td><?php echo $property->price ?></td>
+    <td><?php echo htmlspecialchars($property->type) ?></td>
+    <td><?php echo htmlspecialchars($property->zone) ?></td>
+    <td><?php echo htmlspecialchars($property->price) ?></td>
     <td>
         <?php if (isset($properties)): ?>
-            <?php echo substr($property->description, 0, 20) ?>...
+            <?php echo substr(htmlspecialchars($property->description), 0, 20) ?>...
         <?php else : ?>
-            <?php echo $property->description ?>
+            <?php echo htmlspecialchars($property->description) ?>
         <?php endif ?>
     </td>
-    <td><?php echo $property->mode ?></td>
-    <td><?php echo $property->status ?></td>
-    <td><?php echo $property->city ?></td>
-    <td><?php echo $property->id_owner ?></td>
-    <?php if ($this->user) : ?>
+    <td><?php echo htmlspecialchars($property->mode) ?></td>
+    <td><?php echo htmlspecialchars($property->status) ?></td>
+    <td><?php echo htmlspecialchars($property->city) ?></td>
+    <?php if (!isset($properties)): ?> <!-- porque quiero que aparezca cuando hay una sola prpiedad(solo para "ver mas") -->
+        <td><?php echo htmlspecialchars($owner->name) ?></td>
+    <?php endif ?>
+    <?php if (isset($this->user)) : ?>
 
         <td><a class="btn btn-danger" href="deleteProperty/<?php echo $property->id_property ?>">Eliminar</a></td>
         <td><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalPropertyEdit<?php echo $property->id_property ?>" data-bs-whatever="@getbootstrap">Editar</button></td>
     <?php endif ?>
     <!-- si trae mas de una propiedad muestra ver mas, sino si trae solo una no pq ya esta en ver detalle  -->
     <?php if (isset($properties)): ?>
-        <td><a class="btn btn-info text-light" href="property/<?php echo $property->id_property ?>">Ver más</a></td>
+        <td><a class="btn btn-info text-light" href="property/<?php echo htmlspecialchars($property->id_property) ?>">Ver más</a></td>
     <?php endif ?>
 </tr>
 
@@ -40,9 +42,8 @@
                     <input type="hidden" name="id_property" id="<?php echo $property->id_property ?>">
                     <div class="mb-3">
                         <label for="typePropertyEdit" class="col-form-label">Tipo:</label>
-                        <select class="form-select" id="typePropertyEdit" name="typePropertyEdit"
-                            maxlength="20" pattern="[A-Za-z\s]+" required>
-                            <option selected disabled>Actualice el tipo de propiedad</option>
+                        <select class="form-select" id="typePropertyEdit" name="typePropertyEdit" maxlength="20" pattern="[A-Za-z\s]+" required>
+                            <option value="" selected disabled>Actualice el tipo de propiedad</option>
                             <option value="departamento">DEPARTAMENTO</option>
                             <option value="casa">CASA</option>
                             <option value="lote">LOTE</option>
@@ -71,7 +72,7 @@
                         <label for="modePropertyEdit" class="col-form-label">Nueva modalidad:</label>
                         <select class="form-select" id="modePropertyEdit" name="modePropertyEdit"
                             maxlength="20" pattern="[A-Za-z\s]+" required>
-                            <option selected disabled>Actualice la modalidad de la propiedad</option>
+                            <option value="" selected disabled>Actualice la modalidad de la propiedad</option>
                             <option value="venta">VENTA</option>
                             <option value="alquiler">ALQUILER</option>
                         </select>
@@ -80,7 +81,7 @@
                         <label for="statusPropertyEdit" class="col-form-label">Nuevo estado:</label>
                         <select class="form-select" id="statusPropertyEdit" name="statusPropertyEdit"
                             maxlength="20" pattern="[A-Za-z\s]+" required>
-                            <option selected disabled>Actualice el estado de la propiedad</option>
+                            <option value="" selected disabled>Actualice el estado de la propiedad</option>
                             <option value="vendido">VENDIDO</option>
                             <option value="alquilado">ALQUILADO</option>
                             <option value="disponible">DISPONIBLE</option>
@@ -92,9 +93,9 @@
                             id="cityPropertyEdit" maxlength="45" pattern="[A-Za-z0-9\s]+" required></input>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label fw-bold" for="id_ownerPropertyEdit">ID Dueño:</label>
+                        <label class="form-label fw-bold" for="id_ownerPropertyEdit">Nuevo dueño:</label>
                         <select class="form-control" type="number" id="id_ownerPropertyEdit" name="id_ownerPropertyEdit" required>
-                            <option selected>Cambie la categoría/dueño</option>
+                            <option value="" disabled selected>Cambie la categoría/dueño</option>
                             <?php foreach ($owners as $owner): ?>
                                 <option value="<?php echo $owner->id_owner ?>"><?php echo $owner->name ?> </option>
                             <?php endforeach ?>

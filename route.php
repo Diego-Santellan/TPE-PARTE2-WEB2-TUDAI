@@ -18,53 +18,60 @@ if (!empty($_GET['action'])) {
     $action = $_GET['action'];
 }
 
-// Parsea la acción para separar la acción real de los parametros
+// Parsea la acción para separar la acción real de los parámetros
 $params = explode('/', $action);
 
-// TABLA DE RUTEO
 
-// owners                   - Obtener todos los dueños.
-// owner/:ID                - Obtener un dueño especificado por ID.
-// deleteOwner/:ID          - Eliminar un dueño especificado por ID.
-// updateOwner/:ID          - Actualizar un dueño especificado por ID.
-// addOwner                 - Agregar un nuevo dueño.
-// properties               - Obtener todas las propiedades.
-// property/:ID             - Ver informacion de una propiedad específicada por ID.
-// propertiesForOwner       - Obtener todas las propiedades de un dueño especificado.
-// deleteProperty/:ID       - Eliminar una propiedad específicada por ID.
-// updateProperty/:ID       - Actualizar una propiedad específicada por ID.
-// addProperty              - Agregar una nueva propiedad.
-// showRegister             - Mostrar el formulario de registro de usuario.
-// register                 - Registrar un nuevo usuario.
-// showLogin                - Mostrar el formulario de inicio de sesión.
-// login                    - Iniciar sesión.
-// logout                   - Cerrar sesión.
-// default                  - Manejo de rutas no encontradas (404 Page Not Found).
+/*
+| Ruta                  | Controlador y Acción                              | Descripción                                                         |
+|-----------------------|---------------------------------------------------|---------------------------------------------------------------------|
+| /owners               | OwnerController()->getAllOwners()                 | Lista todos los dueños (categorías).                                |
+| /owner/:ID            | OwnerController()->getOwner($id)                  | Muestra los detalles de un dueño específicado por parámetro.        |
+| /deleteOwner/:ID      | OwnerController()->deleteOwner($id)               | Elimina un dueño específicado por parámetro.                        |
+| /updateOwner/:ID      | OwnerController()->updateOwner($id)               | Actualiza los datos de un dueño específicado por parámetro.         |
+| /addOwner             | OwnerController()->addOwner()                     | Agrega un nuevo dueño.                                              |
+| /properties           | PropertyController()->getAllProperties()          | Lista todas las propiedades (items).                                |
+| /property/:ID         | PropertyController()->getProperty($id)            | Muestra los detalles de una propiedad específica.                   |
+| /propertiesForOwner   | PropertyController()->getPropertiesForOwner()     | Filtra propiedades por dueño.                                       |
+| /deleteProperty/:ID   | PropertyController()->deleteProperty($id)         | Elimina una propiedad específica.                                   |
+| /updateProperty/:ID   | PropertyController()->updateProperty($id)         | Actualiza los datos de una propiedad específica.                    |
+| /addProperty          | PropertyController()->addProperty()               | Agrega una nueva propiedad.                                         |
+| /showRegister         | AuthController()->showRegister()                  | Muestra el formulario de registro de usuario.                       |
+| /register             | AuthController()->register()                      | Registra un nuevo usuario.                                          |
+| /showLogin            | AuthController()->showLogin()                     | Muestra el formulario de inicio de sesión.                          |
+| /login                | AuthController()->login()                         | Inicia sesión en la aplicación.                                     |
+| /logout               | AuthController()->logout()                        | Cierra sesión en la aplicación.                                     |
+| default               | 404 Page Not Found                                | Muestra una página de error 404 si la ruta no existe.               |
+|-----------------------|---------------------------------------------------|---------------------------------------------------------------------|
+*/
+
+
+
+
+
 
 
 
 switch ($params[0]) {
-        // lado 1 de la relación: dueño(Categorías) . 
+        // rutas del lado 1 de la relación: dueño(Categorías) . 
     case 'owners':
         sessionAuthMiddleware($res); // Setea $res->user si existe session
-        // verifyAuthMiddleware($res); // Verifica que el usuario esté logueado o redirige a login
         $controller = new OwnerController($res);
-        $controller->owners();
+        $controller->getAllOwners();
         break;
 
     case 'owner':
         sessionAuthMiddleware($res);
-        // verifyAuthMiddleware($res);
         $controller = new OwnerController($res);
         if (isset($params[1])) { //verifica que el parametro este setado
             // Antes de usar $params[1] en acciones como owner, deleteOwner, updateOwner, se debe verificar si el índice existe para evitar errores si no se proporciona el parámetro.
-            $controller->owner($params[1]);
+            $controller->getOwner($params[1]);
         } else {
             $controller->showError("El parámetro no puede estar vacío");
         }
         break;
 
-    case 'deleteOwner': /* Realizar una accion como recargar la pagina al eliminar un elemento... en caso de que no se pueda avisar y detallar*/
+    case 'deleteOwner': /* Recargar la página al eliminar un elemento, en caso de que no se pueda avisar */
         sessionAuthMiddleware($res);
         verifyAuthMiddleware($res);
         $controller = new OwnerController($res);
@@ -83,7 +90,7 @@ switch ($params[0]) {
             if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $controller->updateOwner($params[1]);
             } else {
-                return $controller->showError("Se esperaba se usara el método POST");
+                $controller->showError("Se esperaba se usara el método POST");
             }
         } else {
             $controller->showError("El parámetro no puede estar vacío");
@@ -98,25 +105,23 @@ switch ($params[0]) {
             $controller = new OwnerController($res);
             $controller->addOwner();
         } else {
-            return $controller->showError("Se esperaba se usara el método POST");
+            $controller->showError("Se esperaba se usara el método POST");
         }
         break;
 
-        // lado N de la relacion: propiedades(items) . 
+        // lado N de la relación: propiedades(items) . 
     case 'properties':
         // puede verse sin estar loggeado 
         sessionAuthMiddleware($res);
-        // verifyAuthMiddleware($res);
         $controller = new PropertyController($res);
-        $controller->properties();
+        $controller->getAllProperties();
         break;
 
     case 'property':
         sessionAuthMiddleware($res);
-        // verifyAuthMiddleware($res);
         $controller = new PropertyController($res);
         if (isset($params[1])) {
-            $controller->property($params[1]);
+            $controller->getProperty($params[1]);
         } else {
             $controller->showError("El parámetro no puede estar vacío");
         }
@@ -125,16 +130,15 @@ switch ($params[0]) {
 
     case 'propertiesForOwner': // es el action de filter_properties(form con el select)
         sessionAuthMiddleware($res);
-        // verifyAuthMiddleware($res);
         if ($_SERVER['REQUEST_METHOD'] == 'GET') {
             $controller = new PropertyController($res);
-            $controller->propertiesForOwner();
+            $controller->getPropertiesForOwner();
         } else {
-            return $controller->showError("Se esperaba se usara el método GET");
+            $controller->showError("Se esperaba se usara el método GET");
         }
         break;
 
-    case 'deleteProperty': /* Realizar una acción como recargar la pagina al eliminar un elemento... en caso de que no se pueda avisar y detallar*/
+    case 'deleteProperty': /* Recargar la pagina al eliminar un elemento, en caso de que no se pueda avisar*/
         sessionAuthMiddleware($res);
         verifyAuthMiddleware($res);
         $controller = new PropertyController($res);
@@ -153,7 +157,7 @@ switch ($params[0]) {
             if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $controller->updateProperty($params[1]);
             } else {
-                return $controller->showError("Se esperaba se usara el método POST");
+                $controller->showError("Se esperaba se usara el método POST");
             }
         } else {
             $controller->showError("El parámetro no puede estar vacío");
@@ -167,7 +171,7 @@ switch ($params[0]) {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $controller->addProperty();
         } else {
-            return $controller->showError("Se esperaba se usara el método POST");
+            $controller->showError("Se esperaba se usara el método POST");
         }
         break;
 
@@ -181,14 +185,14 @@ switch ($params[0]) {
         $controller->register();
         break;
 
-    case 'showLogin': // si el midleware de auth entra en el else(el usuario no esta logueado te manda al showLogin )
+    case 'showLogin': // si el midleware de auth entra en el else(el usuario no está logueado te manda al showLogin)
         $controller = new AuthController();
-        $controller->showLogin(); //te renderiza el form para loguearte
+        $controller->showLogin(); //renderiza el form para loguearte
         break;
 
     case 'login': // el form al ser enviado llama a login 
         $controller = new AuthController();
-        $controller->login(); //accion de login propiamente dicha
+        $controller->login(); //acción de login propiamente dicha
         break;
 
     case 'logout':
@@ -197,7 +201,7 @@ switch ($params[0]) {
         break;
 
     default:
-        echo "404 Page Not Found";
         header("HTTP/1.1 404 Not Found");
+        echo "404 Page Not Found";
         break;
 }

@@ -19,7 +19,7 @@ class OwnerController
     }
 
     // MÉTODOS O FUNCIONES DE LA CLASE  
-    public function owners()
+    public function getAllOwners()
     {
         // obtengo los dueños de la DB 
         $owners = $this->model->getAll();
@@ -28,7 +28,7 @@ class OwnerController
         return $this->view->showOwners($owners);
     }
 
-    public function owner($id)
+    public function getOwner($id)
     {
         // obtengo un dueños de la DB 
         $owner = $this->model->get($id);

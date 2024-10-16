@@ -29,7 +29,7 @@ class PropertyController
 
     // MÉTODOS O FUNCIONES DE LA CLASE  
 
-    public function properties()
+    public function getAllProperties()
     {
         // obtengo las propiedades de la DB 
         $properties = $this->model->getAll();
@@ -40,7 +40,7 @@ class PropertyController
     }
 
 
-    public function propertiesForOwner()
+    public function getPropertiesForOwner()
     {
 
         $optionFilterId = $_GET['filterOwner']; //guardo el valor selecciondo por el us
@@ -54,12 +54,15 @@ class PropertyController
     }
 
 
-    public function property($id)
-    {        // obtengo una propiedad de la DB 
+    public function getProperty($id)
+    {   // obtengo una propiedad de la DB
         $property = $this->model->get($id);
-
-        // mando la propiedad a la vista 
-        return $this->view->showProperty($property);
+        //capturo el id_owner de esa propiedad
+        $idOwner = $property->id_owner;
+        //busco el owner por medio del id_owner
+        $owner = $this->modelOwner->get($idOwner);
+        // mando la propiedad y el dueño a la vista 
+        return $this->view->showProperty($property, $owner);
     }
 
     public function deleteProperty($id)
@@ -214,6 +217,13 @@ class PropertyController
 
         //*********     VALIDACIONES ID_OWNER     *********//
 
+        if (!isset($id_owner) || is_null($id_owner) || trim($id_owner) === '') {
+            $errors[] = "El campo dueño es requerido";
+        }
+        // existe el owner en la bd ? 
+        if (!$this->modelOwner->get($id_owner) ) {
+            $errors[] = "El dueño no existe en la base de datos ";
+        }
 
 
 
@@ -333,7 +343,7 @@ class PropertyController
 
 
         //*********     VALIDACIONES STATUS     *********//
-        // que la status sea requerida
+        // que el status sea requerida
         if (!isset($status) || is_null($status) || trim($status) === '') {
             $errors[] = "El campo estado es requerido";
         }
@@ -369,7 +379,14 @@ class PropertyController
 
 
         //*********     VALIDACIONES ID_OWNER     *********//
-
+        
+        if (!isset($id_owner) || is_null($id_owner) || trim($id_owner) === '') {
+            $errors[] = "El campo dueño es requerido";
+        }
+        // existe el owner en la bd ? 
+        if (!$this->modelOwner->get($id_owner) ) {
+            $errors[] = "El dueño no existe en la base de datos ";
+        }
 
         // Si hay errores, mostrarlos
         if (count($errors) > 0) {
