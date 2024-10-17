@@ -44,8 +44,7 @@ class PropertyModel extends ModelConectDB
         $query = $this->db->prepare('DELETE FROM propiedad WHERE id_property = ?');
         $query->execute([$id]);
 
-        $id = $this->db->lastInsertId();
-        return $id;
+        
     }
     public function update($id_property, $type, $zone, $price, $description, $mode, $status, $city, $id_owner)
     {

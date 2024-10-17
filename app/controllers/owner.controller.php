@@ -109,7 +109,7 @@ class OwnerController
             $errors[] = "El campo Email es requerido";
         }
 
-        // Validar que el nombre no exceda los 80 caracteres
+        // Validar que  no exceda los 80 caracteres
         if (strlen($email) > 80) {
             $errors[] = "El campo Email no puede exceder los 80 caracteres";
         }
@@ -119,7 +119,7 @@ class OwnerController
             $errors[] = "El Email no tiene formato válido";
         }
 
-        if (count($errors) > 0) { // si los datos del usuario pasaron todas las validaciones 
+        if (count($errors) > 0) { // si los datos del usuario NO pasaron todas las validaciones 
             $errosString = implode(", ", $errors); //convierto el areglo de errores a string
 
             return $this->view->showError($errosString);
@@ -187,8 +187,8 @@ class OwnerController
         if (count($errors) > 0) {
             $errosString = implode(", ", $errors); //convierto el areglo de errores a string
             return $this->view->showError($errosString);
-        } // si los datos del usuario pasaron todas las validaciones 
-        else {
+        } else {
+            // si los datos del usuario pasaron todas las validaciones
             $this->model->add($name, $phone, $email);
             header('Location: ' . BASE_URL . 'owners');
             exit();

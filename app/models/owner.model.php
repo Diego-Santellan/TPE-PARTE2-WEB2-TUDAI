@@ -33,6 +33,8 @@ class OwnerModel extends ModelConectDB
         // 2. Ejecuto la consulta
         $query = $this->db->prepare('DELETE FROM duenio WHERE id_owner = ?');
         $query->execute([$id]);
+        
+      
     }
     public function update($id, $name, $phone, $email)
     {
@@ -53,7 +55,6 @@ class OwnerModel extends ModelConectDB
     }
     public function HasProperties($id)
     {
-        // 2. Ejecuto la consulta insertar registros de una tabla en 2 pasos apra evitar la inyeccion de datos          
         $query = $this->db->prepare('SELECT * FROM propiedad WHERE id_owner = ?');
         
         // Ejecutar la consulta
