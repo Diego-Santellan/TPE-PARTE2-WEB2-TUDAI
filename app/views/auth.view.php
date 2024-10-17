@@ -15,4 +15,5 @@ class AuthView
     {
         require_once './templates/form_register.phtml';
     }
+
 }

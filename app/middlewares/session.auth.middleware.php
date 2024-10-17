@@ -10,14 +10,10 @@ function sessionAuthMiddleware($res)
     }
 }
 // lee la sesión y guarda el us si existe
-            // ya no tiene nada que ver con mandarme al login: solo chequea que hay un us, divido el comportamiento en dos , este middlewere lo unico que hace es setear al res->user si existe session, seteamos el usaurio si es que existe, osea leemos la cookie y hacemos ese trabajo . solo pregunta si sos alguien anonimo o no 
-        // } else {
-        //     header('Location: ' . BASE_URL . 'showLogin');//baseurl/login
-        //     die();
-        // }
-
-    // }
+    // ya no tiene nada que ver con mandarme al login: solo chequea que hay un us, divido el comportamiento en dos , este middlewere lo unico que hace es setear al res->user si existe session, seteamos el usaurio si es que existe, osea leemos la cookie y hacemos ese trabajo . solo pregunta si sos alguien anonimo o no 
+        
     // Las funciones verifyAuthMiddleware y sessionAuthMiddleware son parte de un sistema de autenticación en PHP que utiliza sesiones para controlar el acceso de los usuarios.
+    
     // Propósito conjunto:sessionAuthMiddleware se encarga de leer la sesión del us cuando ya está autenticado y almacenar la información de la sesión en $res->user. verifyAuthMiddleware: Protege las rutas que requieren autenticación, redirigiendo a la página de login si no hay un us autenticado. En resumen, estos middlewares trabajan juntos para manejar el control de acceso: uno para gestionar las sesiones, y otro para verificar si el us está autenticado.
 
     

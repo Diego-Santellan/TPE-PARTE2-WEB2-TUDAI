@@ -17,66 +17,60 @@ class AuthController
 
     public function register()
     {
-        $isValid = true;
+        $errors=[];
+        // VALIDACIONES NOMBREUSARIO
+        // si no esta definida o si esta vacia :
+        if (!isset($_POST['usernameRegister']) || empty($_POST['usernameRegister'])) {
+            $errors[]="Falta completar el nombre de usuario";
+        }
 
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        //Validar que el nombre usuario no exceda los 20 caracteres
+        if (strlen($_POST['usernameRegister']) > 20) {
+            $errors="El nombre de usuario no puede exceder los 20 caracteres";
+        }
 
-            // VALIDACIONES NOMBREUSARIO
-            // si no esta definida o si esta vacia :
-            if (!isset($_POST['usernameRegister']) || empty($_POST['usernameRegister'])) {
-                $isValid = false;
-                return $this->view->showRegister('Falta completar el nombre de usuario');
-            }
+        // Verificar caracteres válidos (solo letras y números)
+        if (!preg_match('/^[a-zA-Z0-9_]+$/', $_POST['usernameRegister'])) {
+            $errors[]="El nombre de usuario sólo puede contener letras, números y guiones bajos.";
+        }
 
-            //Validar que el nombre usuario no exceda los 20 caracteres
-            if (strlen($_POST['usernameRegister']) > 20) {
-                $isValid = false;
-                return $this->view->showLogin("El nombre de usuario no puede exceder los 20 caracteres");
-            }
+        // VALIDACIONES CONTRASEÑA
+        if (!isset($_POST['passwordRegister']) || empty($_POST['passwordRegister'])) {
+            $errors[]="Falta completar la contraseña";
+        }
 
-            // Verificar caracteres válidos (solo letras y números)
-            if (!preg_match('/^[a-zA-Z0-9_]+$/', $_POST['usernameRegister'])) {
-                $isValid = false;
-                return $this->view->showLogin("El nombre de usuario sólo puede contener letras, números y guiones bajos.");
-            }
+        if (count($errors) > 0) {
+            $errosString = implode(", ", $errors); //convierto el areglo de errores a string
+            return $this->view->showRegister($errosString);
+        } // si los datos del usuario pasaron todas las validaciones 
 
-            // VALIDACIONES CONTRASEÑA
-            if (!isset($_POST['passwordRegister']) || empty($_POST['passwordRegister'])) {
-                $isValid = false;
-                return $this->view->showRegister('Falta completar la contraseña');
-            }
+        $username = $_POST['usernameRegister'];
+        $password = $_POST['passwordRegister'];
+        $passwordHash = password_hash($password, PASSWORD_DEFAULT); //hasheo la contraseña que ingreso el us
 
-            if ($isValid) {
-                $username = $_POST['usernameRegister'];
-                $password = $_POST['passwordRegister'];
-                $passwordHash = password_hash($password, PASSWORD_DEFAULT); //hasheo la contraseña que ingreso el us
+        // Verificar que el usuario está en la base de datos
+        $userFromDB = $this->model->getUserByUsername($username);
 
-                // Verificar que el usuario está en la base de datos
-                $userFromDB = $this->model->getUserByUsername($username);
+        // verifica que el us no este en la DB  
+        if (!$userFromDB) {
+            $userID = $this->model->addUser($username, $passwordHash); //guarada el id del ultimo usuario agregado 
 
-                // verifica que el us no este en la DB  
-                if (!$userFromDB) {
-                    $userID = $this->model->addUser($username, $passwordHash); //guarada el id del ultimo usuario agregado 
-                    
-                    if ($userID) { //si se pudo registrar trae el objeto usuario buscandolo por id 
-                        $user = $this->model->getUserById($userID);
-                        // Guardo en la sesión el ID del usuario y otros datos de el
-                        session_start();
-                        $_SESSION['id_user'] =$userID;
-                        $_SESSION['username'] =$user;
-                        $_SESSION['LAST_ACTIVITY'] = time();
-                        // Redirijo al home
-                        header('Location: ' . BASE_URL ); //no se pone barra, lo pone el explode
-                        exit();
-                    }
-                } else {
-                    return $this->view->showRegister('Ese usuario ya existe. No puede registrarse con ese nombre de usuario');
-                }
+            if ($userID) { //si se pudo registrar trae el objeto usuario buscandolo por id 
+                $user = $this->model->getUserById($userID);
+                // Guardo en la sesión el ID del usuario y otros datos de el
+                session_start();
+                $_SESSION['id_user'] = $userID;
+                $_SESSION['username'] = $user;
+                $_SESSION['LAST_ACTIVITY'] = time();
+                // Redirijo al home
+                header('Location: ' . BASE_URL); //no se pone barra, lo pone el explode
+                exit();
             }
         } else {
-            return $this->view->showRegister("Se esperaba se usara el método POST");
+            return $this->view->showRegister('Ese usuario ya existe. No puede registrarse con ese nombre de usuario');
         }
     }
+
     public function showRegister()
     {
         // Muestro el formulario de login
@@ -90,62 +84,58 @@ class AuthController
     }
     public function login()
     {
-        $isValid = true;
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            // VALIDACIONES NOMBREUSUARIO
-            // si no está definida o si está vacia :
-            if (!isset($_POST['usernameLogin']) || empty($_POST['usernameLogin'])) {
-                $isValid = false;
-                return $this->view->showLogin('Falta completar el nombre de usuario');
-            }
+        $errors=[];
+        // VALIDACIONES NOMBREUSUARIO
+        // si no está definida o si está vacia :
+        if (!isset($_POST['usernameLogin']) || empty($_POST['usernameLogin'])) {
+            $errors[]="Falta completar el nombre de usuario";
+        }
 
-            //Validar que el nombre usuario no exceda los 20 caracteres
-            if (strlen($_POST['usernameLogin']) > 20) {
-                $isValid = false;
-                return $this->view->showLogin("El nombre de usuario no puede exceder los 20 caracteres");
-            }
+        //Validar que el nombre usuario no exceda los 20 caracteres
+        if (strlen($_POST['usernameLogin']) > 20) {
+            $errors[]="El nombre de usuario no puede exceder los 20 caracteres";
+        }
 
-            // Verificar caracteres válidos (solo letras y números)
-            if (!preg_match('/^[a-zA-Z0-9_]+$/', $_POST['usernameLogin'])) {
-                $isValid = false;
-                return $this->view->showLogin("El nombre de usuario sólo puede contener letras, números y guiones bajos.");
-            }
+        // Verificar caracteres válidos (solo letras y números)
+        if (!preg_match('/^[a-zA-Z0-9_]+$/', $_POST['usernameLogin'])) {
+            $errors[]="El nombre de usuario sólo puede contener letras, números y guiones bajos.";
+        }
 
-            // VALIDACIONES CONTRASEÑA
+        // VALIDACIONES CONTRASEÑA
 
-            // si no está definida o si está vacia :
-            if (!isset($_POST['passwordLogin']) || empty($_POST['passwordLogin'])) {
-                $isValid = false;
-                return $this->view->showLogin('Falta completar la contraseña');
-            }
+        // si no está definida o si está vacia :
+        if (!isset($_POST['passwordLogin']) || empty($_POST['passwordLogin'])) {
+            $errors[]="Falta completar la contraseña";
+        }
 
-            if ($isValid) {
-                $username = $_POST['usernameLogin'];
-                $password = $_POST['passwordLogin'];
+        if (count($errors) > 0) {
+            $errosString = implode(", ", $errors); //convierto el areglo de errores a string
+            return $this->view->showRegister($errosString);
+        } // si los datos del usuario pasaron todas las validaciones 
 
-                // Verificar que el usuario está en la base de datos
-                $userFromDB = $this->model->getUserByUsername($username);
 
-                if ($userFromDB) { //el usuario existe en la DB
-                    if (password_verify($password, $userFromDB->password)) { //la contraseña ingresada sea igual a la contraseña hasheada de la DB 
-                        // Guardo en la sesión el ID del usuario y otros datos de el
-                        session_start();
-                        $_SESSION['id_user'] = $userFromDB->id_user;
-                        $_SESSION['username'] = $userFromDB->username;
-                        $_SESSION['LAST_ACTIVITY'] = time();
-                        // Redirijo al home
-                        header('Location: ' . BASE_URL);
-                        exit();
-                    } else { //el usuario no existe en la DB
-                        return $this->view->showLogin(error: 'Credenciales incorrectas');
-                    }
-                } else {
-                    // agregar btn a registrar 
-                    return $this->view->showLogin(error: 'usuario sin registrar');
-                }
+        $username = $_POST['usernameLogin'];
+        $password = $_POST['passwordLogin'];
+
+        // Verificar que el usuario está en la base de datos
+        $userFromDB = $this->model->getUserByUsername($username);
+
+        if ($userFromDB) { //el usuario existe en la DB
+            if (password_verify($password, $userFromDB->password)) { //la contraseña ingresada sea igual a la contraseña hasheada de la DB 
+                // Guardo en la sesión el ID del usuario y otros datos de el
+                session_start();
+                $_SESSION['id_user'] = $userFromDB->id_user;
+                $_SESSION['username'] = $userFromDB->username;
+                $_SESSION['LAST_ACTIVITY'] = time();
+                // Redirijo al home
+                header('Location: ' . BASE_URL);
+                exit();
+            } else { //el usuario no existe en la DB
+                return $this->view->showLogin(error: 'Credenciales incorrectas');
             }
         } else {
-            return $this->view->showLogin("Se esperaba se usara el método POST");
+            // agregar btn a registrar 
+            return $this->view->showLogin(error: 'usuario sin registrar');
         }
     }
 

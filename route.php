@@ -62,8 +62,8 @@ switch ($params[0]) {
 
     case 'owner':
         sessionAuthMiddleware($res);
-        $controller = new OwnerController($res);
         if (isset($params[1])) { //verifica que el parametro este setado
+            $controller = new OwnerController($res);
             // Antes de usar $params[1] en acciones como owner, deleteOwner, updateOwner, se debe verificar si el índice existe para evitar errores si no se proporciona el parámetro.
             $controller->getOwner($params[1]);
         } else {
@@ -74,8 +74,8 @@ switch ($params[0]) {
     case 'deleteOwner': /* Recargar la página al eliminar un elemento, en caso de que no se pueda avisar */
         sessionAuthMiddleware($res);
         verifyAuthMiddleware($res);
-        $controller = new OwnerController($res);
         if (isset($params[1])) {
+            $controller = new OwnerController($res);
             $controller->deleteOwner($params[1]);
         } else {
             $controller->showError("El parámetro no puede estar vacío");
@@ -85,9 +85,9 @@ switch ($params[0]) {
     case 'updateOwner':
         sessionAuthMiddleware($res);
         verifyAuthMiddleware($res);
-        $controller = new OwnerController($res);
         if (isset($params[1])) {
             if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                $controller = new OwnerController($res);
                 $controller->updateOwner($params[1]);
             } else {
                 $controller->showError("Se esperaba se usara el método POST");
@@ -119,8 +119,8 @@ switch ($params[0]) {
 
     case 'property':
         sessionAuthMiddleware($res);
-        $controller = new PropertyController($res);
         if (isset($params[1])) {
+            $controller = new PropertyController($res);
             $controller->getProperty($params[1]);
         } else {
             $controller->showError("El parámetro no puede estar vacío");
@@ -141,8 +141,8 @@ switch ($params[0]) {
     case 'deleteProperty': /* Recargar la pagina al eliminar un elemento, en caso de que no se pueda avisar*/
         sessionAuthMiddleware($res);
         verifyAuthMiddleware($res);
-        $controller = new PropertyController($res);
         if (isset($params[1])) {
+            $controller = new PropertyController($res);
             $controller->deleteProperty($params[1]);
         } else {
             $controller->showError("El parámetro no puede estar vacío");
@@ -152,9 +152,9 @@ switch ($params[0]) {
     case 'updateProperty':
         sessionAuthMiddleware($res);
         verifyAuthMiddleware($res);
-        $controller = new PropertyController($res);
         if (isset($params[1])) {
             if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                $controller = new PropertyController($res);
                 $controller->updateProperty($params[1]);
             } else {
                 $controller->showError("Se esperaba se usara el método POST");
@@ -167,8 +167,8 @@ switch ($params[0]) {
     case 'addProperty':
         sessionAuthMiddleware($res);
         verifyAuthMiddleware($res);
-        $controller = new PropertyController($res);
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $controller = new PropertyController($res);
             $controller->addProperty();
         } else {
             $controller->showError("Se esperaba se usara el método POST");
@@ -181,8 +181,12 @@ switch ($params[0]) {
         break;
 
     case 'register': // el form al ser enviado llama a register 
-        $controller = new AuthController();
-        $controller->register();
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $controller = new AuthController();
+            $controller->register();
+        } else {
+            return $controller->showError("Se esperaba se usara el método POST");
+        }
         break;
 
     case 'showLogin': // si el midleware de auth entra en el else(el usuario no está logueado te manda al showLogin)
@@ -191,8 +195,12 @@ switch ($params[0]) {
         break;
 
     case 'login': // el form al ser enviado llama a login 
-        $controller = new AuthController();
-        $controller->login(); //acción de login propiamente dicha
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $controller = new AuthController();
+            $controller->login(); //acción de login propiamente dicha
+        } else {
+            return $controller->showError("Se esperaba se usara el método POST");
+        }
         break;
 
     case 'logout':
