@@ -230,7 +230,7 @@ class PropertyController
 
         if (count($errors) > 0) {
             $errosString = implode(", ", $errors); //convierto el areglo de errores a string
-            $this->view->showError($errosString);
+            return $this->view->showError($errosString);
         } // si los datos del usuario pasaron todas las validaciones 
         else {
             $this->model->update($id, $type, $zone, $price, $description, $mode, $status, $city, $id_owner);
@@ -391,7 +391,7 @@ class PropertyController
         // Si hay errores, mostrarlos
         if (count($errors) > 0) {
             $errosString = implode(", ", $errors); //convierto el areglo de errores a string
-            $this->view->showError($errosString);
+            return $this->view->showError($errosString);
         } else { // si los datos del usuario pasaron todas las validaciones 
             $this->model->add($type, $zone, $price, $description, $mode, $status, $city, $id_owner);
             header('Location: ' . BASE_URL);

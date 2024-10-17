@@ -32,9 +32,12 @@ class OwnerController
     {
         // obtengo un dueños de la DB 
         $owner = $this->model->get($id);
-
-        // mando los dueños a la vista 
-        return $this->view->showOwner($owner);
+        if ($owner) { // si el id del dueño que pido existe
+            // mando los dueños a la vista 
+            return $this->view->showOwner($owner);
+        } else {
+            return $this->view->showError('El con el id: ' . $id . 'no existe');
+        }
     }
 
     public function deleteOwner($id)
@@ -106,7 +109,7 @@ class OwnerController
             $errors[] = "El campo Email es requerido";
         }
 
-        // Validar que el nombre no exceda los 80 caracteres
+        // Validar que  no exceda los 80 caracteres
         if (strlen($email) > 80) {
             $errors[] = "El campo Email no puede exceder los 80 caracteres";
         }
@@ -116,10 +119,10 @@ class OwnerController
             $errors[] = "El Email no tiene formato válido";
         }
 
-        if (count($errors) > 0) { // si los datos del usuario pasaron todas las validaciones 
+        if (count($errors) > 0) { // si los datos del usuario NO pasaron todas las validaciones 
             $errosString = implode(", ", $errors); //convierto el areglo de errores a string
 
-            $this->view->showError($errosString);
+            return $this->view->showError($errosString);
         } else {
             $this->model->update($id, $name, $phone, $email);
             header('Location: ' . BASE_URL . 'owners');
@@ -183,9 +186,9 @@ class OwnerController
 
         if (count($errors) > 0) {
             $errosString = implode(", ", $errors); //convierto el areglo de errores a string
-            $this->view->showError($errosString);
-        } // si los datos del usuario pasaron todas las validaciones 
-        else {
+            return $this->view->showError($errosString);
+        } else {
+            // si los datos del usuario pasaron todas las validaciones
             $this->model->add($name, $phone, $email);
             header('Location: ' . BASE_URL . 'owners');
             exit();
