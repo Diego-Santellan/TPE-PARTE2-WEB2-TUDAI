@@ -57,12 +57,16 @@ class PropertyController
     public function getProperty($id)
     {   // obtengo una propiedad de la DB
         $property = $this->model->get($id);
-        //capturo el id_owner de esa propiedad
-        $idOwner = $property->id_owner;
-        //busco el owner por medio del id_owner
-        $owner = $this->modelOwner->get($idOwner);
-        // mando la propiedad y el dueño a la vista 
-        return $this->view->showProperty($property, $owner);
+        if($property){
+            //capturo el id_owner de esa propiedad
+            $idOwner = $property->id_owner;
+            //busco el owner por medio del id_owner
+            $owner = $this->modelOwner->get($idOwner);
+            // mando la propiedad y el dueño a la vista 
+            return $this->view->showProperty($property, $owner);
+        } else{
+            return $this->view->showError("La propiedad con el id: ". $id ."no existe");
+        }
     }
 
     public function deleteProperty($id)
