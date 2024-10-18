@@ -57,7 +57,7 @@ class PropertyController
     public function getProperty($id)
     {   // obtengo una propiedad de la DB
         $property = $this->model->get($id);
-        if($property){
+        if($property){//si trae propiedades 
             //capturo el id_owner de esa propiedad
             $idOwner = $property->id_owner;
             //busco el owner por medio del id_owner
