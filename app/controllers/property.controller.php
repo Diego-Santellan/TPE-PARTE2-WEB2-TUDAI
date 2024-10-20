@@ -57,15 +57,15 @@ class PropertyController
     public function getProperty($id)
     {   // obtengo una propiedad de la DB
         $property = $this->model->get($id);
-        if($property){//si trae propiedades 
+        if ($property) { //si trae propiedades 
             //capturo el id_owner de esa propiedad
             $idOwner = $property->id_owner;
             //busco el owner por medio del id_owner
             $owner = $this->modelOwner->get($idOwner);
             // mando la propiedad y el dueño a la vista 
             return $this->view->showProperty($property, $owner);
-        } else{
-            return $this->view->showError("La propiedad con el id: ". $id ."no existe");
+        } else {
+            return $this->view->showError("La propiedad con el id: " . $id . "no existe");
         }
     }
 
@@ -98,44 +98,37 @@ class PropertyController
 
         // tomar datos del form ingresados por el usuario y validarlos , funcion importante del contoller 
 
-        $type = $_POST['typePropertyEdit']; //name del formulario 
-        $zone = $_POST['zonePropertyEdit'];
-        $price = intval($_POST['pricePropertyEdit']); //quedarse sólo con la parte entera 
-        $description = $_POST['descriptionPropertyEdit'];
-        $mode = $_POST['modePropertyEdit'];
-        $status = $_POST['statusPropertyEdit'];
-        $city = $_POST['cityPropertyEdit'];
-        $id_owner = $_POST['id_ownerPropertyEdit'];
+
 
         // VALIDACIONES TYPE
         // Verificar si el campo existe, no es null, ni vacío
-        if (!isset($type) || is_null($type) || trim($type) === '') {
+        if (!isset($_POST['typePropertyEdit']) || is_null($_POST['typePropertyEdit']) || trim($_POST['typePropertyEdit']) === '') {
             $errors[] = "El campo tipo es requerido";
         }
         //verificar si ingresa una opcion no valida en el select del input type 
-        if (!$this->validOption($type, $this->optionsTypeProperty)) {
+        if (!$this->validOption($_POST['typePropertyEdit'], $this->optionsTypeProperty)) {
             $errors[] = "No seleccionó una opción válida para el campo tipo";
         }
         //Validar que el tipo no exceda los 20 caracteres
-        if (strlen($type) > 20) {
+        if (strlen($_POST['typePropertyEdit']) > 20) {
             $errors[] = "El campo tipo no puede exceder los 20 caracteres";
         }
         // Validar que sólo contenga letras y espacios
-        if (!preg_match("/^[A-Za-z\s]+$/", $type)) {
+        if (!preg_match("/^[A-Za-z\s]+$/", $_POST['typePropertyEdit'])) {
             $errors[] = "El campo tipo sólo puede contener letras y espacios";
         }
 
         // VALIDACIONES ZONE
         // Verificar si el campo existe, no es null, ni vacío
-        if (!isset($zone) || is_null($zone) || trim($zone) === '') {
+        if (!isset($_POST['zonePropertyEdit']) || is_null($_POST['zonePropertyEdit']) || trim($_POST['zonePropertyEdit']) === '') {
             $errors[] = "El campo zona es requerido";
         }
         //Validar que el zone no exceda los 45 caracteres
-        if (strlen($zone) > 45) {
+        if (strlen($_POST['zonePropertyEdit']) > 45) {
             $errors[] = "El campo zona no puede exceder los 45 caracteres";
         }
         // validar que sean letras, espacios o números
-        if (!preg_match("/^[a-zA-Z0-9\s]+$/", $zone)) {
+        if (!preg_match("/^[a-zA-Z0-9\s]+$/", $_POST['zonePropertyEdit'])) {
             $errors[] = "El campo zona solo admite letras, espacios o números";
         }
 
@@ -143,11 +136,11 @@ class PropertyController
 
         // *********    VALIDACIONES PRECIO     *********//
         // Verificar si el campo existe, no es null, ni vacío
-        if (!isset($price) || is_null($price) || trim($price) === '') {
+        if (!isset($_POST['pricePropertyEdit']) || is_null(intval($_POST['pricePropertyEdit'])) || trim(intval($_POST['pricePropertyEdit'])) === '') {
             $errors[] = "El campo precio es requerido";
         }
         //Validar que sea un número comprendido en un rango validos y que tenga un máximo de 10 dígitos
-        if ($price < 0 || $price > 9999999999) {
+        if (intval($_POST['pricePropertyEdit']) < 0 || intval($_POST['pricePropertyEdit']) > 9999999999) {
             $errors[] = "El campo precio esta fuera de rango, tiene que ser mayor a 0 y tener un maximo de 10 digitos.";
         }
 
@@ -155,11 +148,11 @@ class PropertyController
 
         // *********     VALIDACIONES DESCRIPTION   *********//
         // que la descripcion sea requerida
-        if (!isset($description) || is_null($description) || trim($description) === '') {
+        if (!isset($_POST['descriptionPropertyEdit']) || is_null($_POST['descriptionPropertyEdit']) || trim($_POST['descriptionPropertyEdit']) === '') {
             $errors[] = "El campo descripción  es requerido";
         }
         // Validar que la descripción no exceda los 500 caracteres
-        if (strlen($description) > 500) {
+        if (strlen($_POST['descriptionPropertyEdit']) > 500) {
             $errors[] = "El campo descripción no puede exceder los 500 caracteres";
         }
 
@@ -167,19 +160,19 @@ class PropertyController
 
         //*********     VALIDACIONES MODE   *********//
         // que la modo sea requerida
-        if (!isset($mode) || is_null($mode) || trim($mode) === '') {
+        if (!isset($_POST['modePropertyEdit']) || is_null($_POST['modePropertyEdit']) || trim($_POST['modePropertyEdit']) === '') {
             $errors[] = "El modo es requerido";
         }
         //verificar si ingresa una opcion no valida en el select del input MODE 
-        if (!$this->validOption($mode, $this->optionsModeProperty)) {
+        if (!$this->validOption($_POST['modePropertyEdit'], $this->optionsModeProperty)) {
             $errors[] = "No seleccionó una opción válida para el campo mode";
         }
         //Validar que el modo no exceda los 20 caracteres
-        if (strlen($mode) > 20) {
+        if (strlen($_POST['modePropertyEdit']) > 20) {
             $errors[] = "El campo modo no puede exceder los 20 caracteres";
         }
         // Validar que sólo contenga letras y espacios
-        if (!preg_match("/^[A-Za-z\s]+$/", $mode)) {
+        if (!preg_match("/^[A-Za-z\s]+$/", $_POST['modePropertyEdit'])) {
             $errors[] = "El campo modo sólo puede contener letras y espacios";
         }
 
@@ -187,19 +180,19 @@ class PropertyController
 
         //*********     VALIDACIONES STATUS     *********//
         // que la status sea requerida
-        if (!isset($status) || is_null($status) || trim($status) === '') {
+        if (!isset($_POST['statusPropertyEdit']) || is_null($_POST['statusPropertyEdit']) || trim($_POST['statusPropertyEdit']) === '') {
             $errors[] = "El campo estado es requerido";
         }
         //Validar que el status no exceda los 20 caracteres
-        if (strlen($status) > 20) {
+        if (strlen($_POST['statusPropertyEdit']) > 20) {
             $errors[] = "El campo estado no puede exceder los 20 caracteres";
         }
         //verificar si ingresa una opcion no valida en el select del input status 
-        if (!$this->validOption($status, $this->optionsStatusProperty)) {
+        if (!$this->validOption($_POST['statusPropertyEdit'], $this->optionsStatusProperty)) {
             $errors[] = "No seleccionó una opción válida para el campo estado";
         }
         // Validar que sólo contenga letras y espacios
-        if (!preg_match("/^[A-Za-z\s]+$/", $status)) {
+        if (!preg_match("/^[A-Za-z\s]+$/", $_POST['statusPropertyEdit'])) {
             $errors[] = "El campo estado sólo puede contener letras y espacios";
         }
 
@@ -207,25 +200,25 @@ class PropertyController
 
         //*********     VALIDACIONES CITY     *********//
         // que la status sea requerida
-        if (!isset($city) || is_null($city) || trim($city) === '') {
+        if (!isset($_POST['cityPropertyEdit']) || is_null($_POST['cityPropertyEdit']) || trim($_POST['cityPropertyEdit']) === '') {
             $errors[] = "El campo ciudad es requerido";
         }
         //Validar que ciyu no exceda los 45 caracteres
-        if (strlen($city) > 45) {
+        if (strlen($_POST['cityPropertyEdit']) > 45) {
             $errors[] = "El campo ciudad no puede exceder los 45 caracteres";
         }
         // Validar que sólo contenga letras y espacios
-        if (!preg_match("/^[A-Za-z\s]+$/", $city)) {
+        if (!preg_match("/^[A-Za-z\s]+$/", $_POST['cityPropertyEdit'])) {
             $errors[] = "El campo ciudad sólo puede contener letras y espacios";
         }
 
         //*********     VALIDACIONES ID_OWNER     *********//
 
-        if (!isset($id_owner) || is_null($id_owner) || trim($id_owner) === '') {
+        if (!isset($_POST['id_ownerPropertyEdit']) || is_null($_POST['id_ownerPropertyEdit']) || trim($_POST['id_ownerPropertyEdit']) === '') {
             $errors[] = "El campo dueño es requerido";
         }
         // existe el owner en la bd ? 
-        if (!$this->modelOwner->get($id_owner) ) {
+        if (!$this->modelOwner->get($_POST['id_ownerPropertyEdit'])) {
             $errors[] = "El dueño no existe en la base de datos ";
         }
 
@@ -237,6 +230,16 @@ class PropertyController
             return $this->view->showError($errosString);
         } // si los datos del usuario pasaron todas las validaciones 
         else {
+
+            $type = $_POST['typePropertyEdit']; //name del formulario 
+            $zone = $_POST['zonePropertyEdit'];
+            $price = intval($_POST['pricePropertyEdit']); //quedarse sólo con la parte entera 
+            $description = $_POST['descriptionPropertyEdit'];
+            $mode = $_POST['modePropertyEdit'];
+            $status = $_POST['statusPropertyEdit'];
+            $city = $_POST['cityPropertyEdit'];
+            $id_owner = $_POST['id_ownerPropertyEdit'];
+
             $this->model->update($id, $type, $zone, $price, $description, $mode, $status, $city, $id_owner);
             header('Location: ' . BASE_URL);
             exit();
@@ -260,55 +263,47 @@ class PropertyController
 
         // tomar datos del form ingresados por el usuario y validarlos , funcion importante del contoller 
 
-        $type = $_POST['typePropertyAdd'];
-        $zone = $_POST['zonePropertyAdd'];
-        $price = intval($_POST['pricePropertyAdd']); //quedarse solo con la parte entera 
-        $description = $_POST['descriptionPropertyAdd'];
-        $mode = $_POST['modePropertyAdd'];
-        $status = $_POST['statusPropertyAdd'];
-        $city = $_POST['cityPropertyAdd'];
-        $id_owner = $_POST['id_ownerPropertyAdd'];
-
+      
         // VALIDACIONES TYPE
         // Verificar si el campo existe, no es null, ni vacío
-        if (!isset($type) || is_null($type) || trim($type) === '') {
+        if (!isset($_POST['typePropertyAdd']) || is_null($_POST['typePropertyAdd']) || trim($_POST['typePropertyAdd']) === '') {
             $errors[] = "El campo tipo es requerido";
         }
         //verificar si ingresa una opcion no valida en el select del input type 
-        if (!$this->validOption($type, $this->optionsTypeProperty)) {
+        if (!$this->validOption($_POST['typePropertyAdd'], $this->optionsTypeProperty)) {
             $errors[] = "No seleccionó una opción válida para el campo tipo";
         }
         //Validar que el tipo no exceda los 20 caracteres
-        if (strlen($type) > 20) {
+        if (strlen($_POST['typePropertyAdd']) > 20) {
             $errors[] = "El campo tipo no puede exceder los 20 caracteres";
         }
         // Validar que sólo contenga letras y espacios
-        if (!preg_match("/^[A-Za-z\s]+$/", $type)) {
+        if (!preg_match("/^[A-Za-z\s]+$/", $_POST['typePropertyAdd'])) {
             $errors[] = "El campo tipo sólo puede contener letras y espacios";
         }
 
         // VALIDACIONES ZONE
         // Verificar si el campo existe, no es null, ni vacío
-        if (!isset($zone) || is_null($zone) || trim($zone) === '') {
+        if (!isset($_POST['zonePropertyAdd']) || is_null($_POST['zonePropertyAdd']) || trim($_POST['zonePropertyAdd']) === '') {
             $errors[] = "El campo zona es requerido";
         }
         //Validar que no exceda los 45 caracteres
-        if (strlen($zone) > 45) {
+        if (strlen($_POST['zonePropertyAdd']) > 45) {
             $errors[] = "El campo zona no puede exceder los 45 caracteres";
         }
         // validar que sean letras, espacios o números
-        if (!preg_match("/^[a-zA-Z0-9\s]+$/", $zone)) {
+        if (!preg_match("/^[a-zA-Z0-9\s]+$/", $_POST['zonePropertyAdd'])) {
             $errors[] = "El campo sólo admite letras, espacios o números";
         }
 
 
         // *********    VALIDACIONES PRECIO     *********//
         // Verificar si el campo existe, no es null, ni vacío
-        if (!isset($price) || is_null($price) || trim($price) === '') {
+        if (!isset(($_POST['pricePropertyAdd'])) || is_null(intval($_POST['pricePropertyAdd'])) || trim(intval($_POST['pricePropertyAdd'])) === '') {
             $errors[] = "El campo precio es requerido";
         }
         //Validar que sea un número comprendido en un rango validos y que tenga un máximo de 10 dígitos
-        if ($price < 0 || $price > 9999999999) {
+        if (intval($_POST['pricePropertyAdd']) < 0 || intval($_POST['pricePropertyAdd']) > 9999999999) {
             $errors[] = "El campo precio esta fuera de rango, tiene que ser mayor a 0 y tener un maximo de 10 digitos.";
         }
 
@@ -316,11 +311,11 @@ class PropertyController
 
         // *********     VALIDACIONES DESCRIPTION   *********//
         // que la descripcion sea requerida
-        if (!isset($description) || is_null($description) || trim($description) === '') {
+        if (!isset($_POST['descriptionPropertyAdd']) || is_null($_POST['descriptionPropertyAdd']) || trim($_POST['descriptionPropertyAdd']) === '') {
             $errors[] = "El campo descripción es requerido";
         }
         // Validar que la descripción no exceda los 500 caracteres
-        if (strlen($description) > 500) {
+        if (strlen($_POST['descriptionPropertyAdd']) > 500) {
             $errors[] = "El campo descripción no puede exceder los 500 caracteres";
         }
 
@@ -328,19 +323,19 @@ class PropertyController
 
         //*********     VALIDACIONES MODE   *********//
         // que la modo sea requerida
-        if (!isset($mode) || is_null($mode) || trim($mode) === '') {
+        if (!isset($_POST['modePropertyAdd']) || is_null($_POST['modePropertyAdd']) || trim($_POST['modePropertyAdd']) === '') {
             $errors[] = "El modo es requerido";
         }
         //verificar si ingresa una opcion no valida en el select del input MODE 
-        if (!$this->validOption($mode, $this->optionsModeProperty)) {
+        if (!$this->validOption($_POST['modePropertyAdd'], $this->optionsModeProperty)) {
             $errors[] = "No seleccionó una opción válida para el campo mode";
         }
         //Validar que el modo no exceda los 20 caracteres
-        if (strlen($mode) > 20) {
+        if (strlen($_POST['modePropertyAdd']) > 20) {
             $errors[] = "El campo modo no puede exceder los 20 caracteres";
         }
         // Validar que sólo contenga letras y espacios
-        if (!preg_match("/^[A-Za-z\s]+$/", $mode)) {
+        if (!preg_match("/^[A-Za-z\s]+$/", $_POST['modePropertyAdd'])) {
             $errors[] = "El campo modo sólo puede contener letras y espacios";
         }
 
@@ -348,19 +343,19 @@ class PropertyController
 
         //*********     VALIDACIONES STATUS     *********//
         // que el status sea requerida
-        if (!isset($status) || is_null($status) || trim($status) === '') {
+        if (!isset($_POST['statusPropertyAdd']) || is_null($_POST['statusPropertyAdd']) || trim($_POST['statusPropertyAdd']) === '') {
             $errors[] = "El campo estado es requerido";
         }
         //Validar que el status no exceda los 20 caracteres
-        if (strlen($status) > 20) {
+        if (strlen($_POST['statusPropertyAdd']) > 20) {
             $errors[] = "El campo estado no puede exceder los 20 caracteres";
         }
         //verificar si ingresa una opcion no valida en el select del input MODE 
-        if (!$this->validOption($status, $this->optionsStatusProperty)) {
+        if (!$this->validOption($_POST['statusPropertyAdd'], $this->optionsStatusProperty)) {
             $errors[] = "No seleccionó una opción válida para el campo estado";
         }
         // Validar que sólo contenga letras y espacios
-        if (!preg_match("/^[A-Za-z\s]+$/", $status)) {
+        if (!preg_match("/^[A-Za-z\s]+$/", $_POST['statusPropertyAdd'])) {
             $errors[] = "El campo estado sólo puede contener letras y espacios";
         }
 
@@ -368,27 +363,27 @@ class PropertyController
 
         //*********     VALIDACIONES CITY     *********//
         // que la status sea requerida
-        if (!isset($city) || is_null($city) || trim($city) === '') {
+        if (!isset($_POST['cityPropertyAdd']) || is_null($_POST['cityPropertyAdd']) || trim($_POST['cityPropertyAdd']) === '') {
             $errors[] = "El campo ciudad es requerido";
         }
         //Validar que ciyu no exceda los 45 caracteres
-        if (strlen($city) > 45) {
+        if (strlen($_POST['cityPropertyAdd']) > 45) {
             $errors[] = "El campo ciudad no puede exceder los 45 caracteres";
         }
         // Validar que sólo contenga letras y espacios
-        if (!preg_match("/^[A-Za-z\s]+$/", $city)) {
+        if (!preg_match("/^[A-Za-z\s]+$/", $_POST['cityPropertyAdd'])) {
             $errors[] = "El campo ciudad sólo puede contener letras y espacios";
         }
 
 
 
         //*********     VALIDACIONES ID_OWNER     *********//
-        
-        if (!isset($id_owner) || is_null($id_owner) || trim($id_owner) === '') {
+
+        if (!isset($_POST['id_ownerPropertyAdd']) || is_null($_POST['id_ownerPropertyAdd']) || trim($_POST['id_ownerPropertyAdd']) === '') {
             $errors[] = "El campo dueño es requerido";
         }
         // existe el owner en la bd ? 
-        if (!$this->modelOwner->get($id_owner) ) {
+        if (!$this->modelOwner->get($_POST['id_ownerPropertyAdd'])) {
             $errors[] = "El dueño no existe en la base de datos ";
         }
 
@@ -397,8 +392,21 @@ class PropertyController
             $errosString = implode(", ", $errors); //convierto el areglo de errores a string
             return $this->view->showError($errosString);
         } else { // si los datos del usuario pasaron todas las validaciones 
-            $this->model->add($type, $zone, $price, $description, $mode, $status, $city, $id_owner);
-            header('Location: ' . BASE_URL);
+
+            $type = $_POST['typePropertyAdd'];
+            $zone = $_POST['zonePropertyAdd'];
+            $price = intval($_POST['pricePropertyAdd']); //quedarse solo con la parte entera 
+            $description = $_POST['descriptionPropertyAdd'];
+            $mode = $_POST['modePropertyAdd'];
+            $status = $_POST['statusPropertyAdd'];
+            $city = $_POST['cityPropertyAdd'];
+            $id_owner = $_POST['id_ownerPropertyAdd'];
+
+           $id=  $this->model->add($type, $zone, $price, $description, $mode, $status, $city, $id_owner);
+           if(!$id){
+            return $this->view->showError('error al insertar propiedad');
+           } 
+           header('Location: ' . BASE_URL);
             exit();
         }
     }
