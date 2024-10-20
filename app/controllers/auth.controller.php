@@ -65,6 +65,8 @@ class AuthController
                 // Redirijo al home
                 header('Location: ' . BASE_URL); //no se pone barra, lo pone el explode
                 exit();
+            }else{
+                return $this->view->showRegister('No fue posible registrase');
             }
         } else {
             return $this->view->showRegister('Ese usuario ya existe. No puede registrarse con ese nombre de usuario');

@@ -70,52 +70,48 @@ class OwnerController
             return $this->view->showError("No Existe el dueño con el id: $id .");
         }
 
-        // tomar datos del form ingresados por el usuario y validarlos , funcion importante del contoller 
-
-        $name = $_POST['nameOwnerEdit'];
-        $phone = $_POST['phoneOwnerEdit'];
-        $email = $_POST['emailOwnerEdit'];
+        // tomar datos del form ingresados por el usuario y validarlos , funcion importante del contoller        
 
         // VALIDACIONES NAME
         // Verificar si el campo existe, no es null, ni vacío
-        if (!isset($name) || is_null($name) || trim($name) === '') {
+        if (!isset($_POST['nameOwnerEdit']) || is_null($_POST['nameOwnerEdit']) || trim($_POST['nameOwnerEdit']) === '') {
             $errors[] = "El campo Nombre es requerido";
         }
 
         //Validar que el nombre no exceda los 50 caracteres
-        if (strlen($name) > 50) {
+        if (strlen($_POST['nameOwnerEdit']) > 50) {
             $errors[] = "El nombre no puede exceder los 50 caracteres";
         }
 
         // Validar que solo contenga letras y espacios
-        if (!preg_match("/^[A-Za-z\s]+$/", $name)) {
+        if (!preg_match("/^[A-Za-z\s]+$/", $_POST['nameOwnerEdit'])) {
             $errors[] = "El nombre sólo puede contener letras y espacios";
         }
 
         // VALIDACIONES PHONE
         // Verificar si el campo existe, no es null, ni vacío
-        if (!isset($phone) || is_null($phone) || trim($phone) === '') {
+        if (!isset($_POST['phoneOwnerEdit']) || is_null($_POST['phoneOwnerEdit']) || trim($_POST['phoneOwnerEdit']) === '') {
             $errors[] = "El campo teléfono es requerido";
         }
 
         //Validar que el teléfono no exceda los 20 caracteres
-        if (strlen($phone) > 20) {
+        if (strlen($_POST['phoneOwnerEdit']) > 20) {
             $errors[] = "El campo teléfono no puede exceder los 20 caracteres";
         }
 
         // VALIDACIONES EMAIL
         // Verificar si el campo existe, no es null, ni vacío
-        if (!isset($email) || is_null($email) || trim($email) === '') {
+        if (!isset($_POST['emailOwnerEdit']) || is_null($_POST['emailOwnerEdit']) || trim($_POST['emailOwnerEdit']) === '') {
             $errors[] = "El campo Email es requerido";
         }
 
         // Validar que  no exceda los 80 caracteres
-        if (strlen($email) > 80) {
+        if (strlen($_POST['emailOwnerEdit']) > 80) {
             $errors[] = "El campo Email no puede exceder los 80 caracteres";
         }
 
         // Validar formato email 
-        if (!preg_match("/^[\w\.\-]+@[a-zA-Z\d\-]+\.[a-zA-Z]{2,}$/", $email)) {
+        if (!preg_match("/^[\w\.\-]+@[a-zA-Z\d\-]+\.[a-zA-Z]{2,}$/", $_POST['emailOwnerEdit'])) {
             $errors[] = "El Email no tiene formato válido";
         }
 
@@ -124,6 +120,11 @@ class OwnerController
 
             return $this->view->showError($errosString);
         } else {
+            // encapasulamos los datos del form en variables PERO DESPUES DE VALIDARLOS 
+            $name = $_POST['nameOwnerEdit'];
+            $phone = $_POST['phoneOwnerEdit'];
+            $email = $_POST['emailOwnerEdit'];
+            
             $this->model->update($id, $name, $phone, $email);
             header('Location: ' . BASE_URL . 'owners');
             exit();
@@ -137,50 +138,47 @@ class OwnerController
 
         // tomar datos del form ingresados por el usuario y validarlos , funcion importante del contoller 
 
-        $name = $_POST['nameOwnerAdd'];
-        $phone = $_POST['phoneOwnerAdd'];
-        $email = $_POST['emailOwnerAdd'];
-
+       
         // VALIDACIONES NAME
         // Verificar si el campo existe, no es null, ni vacío
-        if (!isset($name) || is_null($name) || trim($name) === '') {
+        if (!isset($_POST['nameOwnerAdd']) || is_null($_POST['nameOwnerAdd']) || trim($_POST['nameOwnerAdd']) === '') {
             $errors[] = "El campo Nombre es requerido";
         }
 
         //Validar que el nombre no exceda los 50 caracteres
-        if (strlen($name) > 50) {
+        if (strlen($_POST['nameOwnerAdd']) > 50) {
             $errors[] = "El nombre no puede exceder los 50 caracteres";
         }
 
         // Validar que solo contenga letras y espacios
-        if (!preg_match("/^[A-Za-z\s]+$/", $name)) {
+        if (!preg_match("/^[A-Za-z\s]+$/", $_POST['nameOwnerAdd'])) {
             $errors[] = "El nombre sólo puede contener letras y espacios";
         }
 
         // VALIDACIONES PHONE
         // Verificar si el campo existe, no es null, ni vacío
-        if (!isset($phone) || is_null($phone) || trim($phone) === '') {
+        if (!isset($_POST['phoneOwnerAdd']) || is_null($_POST['phoneOwnerAdd']) || trim($_POST['phoneOwnerAdd']) === '') {
             $errors[] = "El campo teléfono es requerido";
         }
 
         //Validar que el teléfono no exceda los 20 caracteres
-        if (strlen($phone) > 20) {
+        if (strlen($_POST['phoneOwnerAdd']) > 20) {
             $errors[] = "El campo teléfono no puede exceder los 20 caracteres";
         }
 
         // VALIDACIONES EMAIL
         // Verificar si el campo existe, no es null, ni vacío
-        if (!isset($email) || is_null($email) || trim($email) === '') {
+        if (!isset($_POST['emailOwnerAdd']) || is_null($_POST['emailOwnerAdd']) || trim($_POST['emailOwnerAdd']) === '') {
             $errors[] = "El campo Email es requerido";
         }
 
         // Validar que el nombre no exceda los 80 caracteres
-        if (strlen($email) > 80) {
+        if (strlen($_POST['emailOwnerAdd']) > 80) {
             $errors[] = "El campo Email no puede exceder los 80 caracteres";
         }
 
         // Validar formato email 
-        if (!preg_match("/^[\w\.\-]+@[a-zA-Z\d\-]+\.[a-zA-Z]{2,}$/", $email)) {
+        if (!preg_match("/^[\w\.\-]+@[a-zA-Z\d\-]+\.[a-zA-Z]{2,}$/", $_POST['emailOwnerAdd'])) {
             $errors[] = "El Email no tiene formato válido";
         }
 
@@ -188,8 +186,17 @@ class OwnerController
             $errosString = implode(", ", $errors); //convierto el areglo de errores a string
             return $this->view->showError($errosString);
         } else {
-            // si los datos del usuario pasaron todas las validaciones
-            $this->model->add($name, $phone, $email);
+            // si los datos del usuario pasaron todas las validaciones LOS GUARDO EN VARIABLES PRIMERO VERIFICAR
+            $name = $_POST['nameOwnerAdd'];
+            $phone = $_POST['phoneOwnerAdd'];
+            $email = $_POST['emailOwnerAdd'];
+    
+            $id= $this->model->add($name, $phone, $email);
+
+            if(!$id){
+                return $this->view->showError('Error en la inserción');
+            }
+
             header('Location: ' . BASE_URL . 'owners');
             exit();
         }
