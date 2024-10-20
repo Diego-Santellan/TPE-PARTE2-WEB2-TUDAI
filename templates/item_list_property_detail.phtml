@@ -1,45 +1,45 @@
 <tr>
-    <td><?php echo htmlspecialchars($property->type) ?></td>
-    <td><?php echo htmlspecialchars($property->zone) ?></td>
-    <td><?php echo htmlspecialchars($property->price) ?></td>
+    <td><?=htmlspecialchars($property->type) ?></td>
+    <td><?=htmlspecialchars($property->zone) ?></td>
+    <td><?=htmlspecialchars($property->price) ?></td>
     <td>
         <?php if (isset($properties)): ?>
-            <?php echo substr(htmlspecialchars($property->description), 0, 20) ?>...
+            <?= substr(htmlspecialchars($property->description), 0, 20) ?>...
         <?php else : ?>
-            <?php echo htmlspecialchars($property->description) ?>
+            <?= htmlspecialchars($property->description) ?>
         <?php endif ?>
     </td>
-    <td><?php echo htmlspecialchars($property->mode) ?></td>
-    <td><?php echo htmlspecialchars($property->status) ?></td>
-    <td><?php echo htmlspecialchars($property->city) ?></td>
+    <td><?= htmlspecialchars($property->mode) ?></td>
+    <td><?= htmlspecialchars($property->status) ?></td>
+    <td><?= htmlspecialchars($property->city) ?></td>
     <?php if (!isset($properties)): ?> <!-- porque quiero que aparezca cuando hay una sola prpiedad(solo para "ver mas") -->
-        <td><?php echo htmlspecialchars($owner->name) ?></td>
+        <td><?= htmlspecialchars($owner->name) ?></td>
     <?php endif ?>
     <?php if (isset($this->user)) : ?>
 
-        <td><a class="btn btn-danger" href="deleteProperty/<?php echo $property->id_property ?>">Eliminar</a></td>
-        <td><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalPropertyEdit<?php echo $property->id_property ?>" data-bs-whatever="@getbootstrap">Editar</button></td>
+        <td><a class="btn btn-danger" href="deleteProperty/<?= $property->id_property ?>">Eliminar</a></td>
+        <td><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalPropertyEdit<?= $property->id_property ?>" data-bs-whatever="@getbootstrap">Editar</button></td>
     <?php endif ?>
     <!-- si trae mas de una propiedad muestra ver mas, sino si trae solo una no pq ya esta en ver detalle  -->
     <?php if (isset($properties)): ?>
-        <td><a class="btn btn-info text-light" href="property/<?php echo htmlspecialchars($property->id_property) ?>">Ver más</a></td>
+        <td><a class="btn btn-info text-light" href="property/<?= htmlspecialchars($property->id_property) ?>">Ver más</a></td>
     <?php endif ?>
 </tr>
 
-<div class="modal fade" id="modalPropertyEdit<?php echo $property->id_property ?>" tabindex="-1"
-    aria-labelledby="modalPropertyEditLabel<?php echo $property->id_property ?>" aria-hidden="true">
+<div class="modal fade" id="modalPropertyEdit<?= $property->id_property ?>" tabindex="-1"
+    aria-labelledby="modalPropertyEditLabel<?= $property->id_property ?>" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5"
-                    id="modalPropertyEditLabel<?php echo $property->id_property ?>">Editar propiedad
-                    <?php echo $property->id_property ?>:</h1>
+                    id="modalPropertyEditLabel<?= $property->id_property ?>">Editar propiedad
+                    <?= $property->id_property ?>:</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <!-- updateProperty es una ruta del router -->
-                <form action="updateProperty/<?php echo $property->id_property ?>" method="POST">
-                    <input type="hidden" name="id_property" id="<?php echo $property->id_property ?>">
+                <form action="updateProperty/<?= $property->id_property ?>" method="POST">
+                    <input type="hidden" name="id_property" id="<?= $property->id_property ?>">
                     <div class="mb-3">
                         <label for="typePropertyEdit" class="col-form-label">Tipo:</label>
                         <select class="form-select" id="typePropertyEdit" name="typePropertyEdit" maxlength="20" pattern="[A-Za-z\s]+" required>
@@ -97,7 +97,7 @@
                         <select class="form-control" type="number" id="id_ownerPropertyEdit" name="id_ownerPropertyEdit" required>
                             <option value="" disabled selected>Cambie la categoría/dueño</option>
                             <?php foreach ($owners as $owner): ?>
-                                <option value="<?php echo $owner->id_owner ?>"><?php echo $owner->name ?> </option>
+                                <option value="<?= $owner->id_owner ?>"><?= $owner->name ?> </option>
                             <?php endforeach ?>
                         </select>
                     </div>

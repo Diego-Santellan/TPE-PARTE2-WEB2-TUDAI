@@ -57,7 +57,7 @@
             <select class="form-control" type="number" id="id_ownerPropertyAdd" name="id_ownerPropertyAdd" required >
             <option value="" disabled selected>Selecciona la categoría/dueño</option>
             <?php foreach ($owners as $owner): ?>
-                    <option value="<?php echo $owner->id_owner ?>"><?php echo $owner->name ?> </option>
+                    <option value="<?= $owner->id_owner ?>"><?= $owner->name ?> </option>
                 <?php endforeach ?>
             </select>
         </div>

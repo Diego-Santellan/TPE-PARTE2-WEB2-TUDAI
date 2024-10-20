@@ -5,7 +5,7 @@
             <option value="" selected disabled>Selecciona la categoría/dueño del item(propiedad)</option>
             <?php foreach ($owners as $owner) : ?>
                 <!-- por cada owner genera cada opción del select  -->
-                <option value='<?php echo $owner->id_owner ?>'><?php echo $owner->name ?></option>
+                <option value='<?= $owner->id_owner ?>'><?= $owner->name ?></option>
                 <!-- <option value="19">Jose</option> -->
             <?php endforeach ?>
         </select>
