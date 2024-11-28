@@ -43,8 +43,6 @@ class PropertyModel extends ModelConectDB
         // 2. Ejecuto la consulta
         $query = $this->db->prepare('DELETE FROM propiedad WHERE id_property = ?');
         $query->execute([$id]);
-
-        
     }
     public function update($id_property, $type, $zone, $price, $description, $mode, $status, $city, $id_owner)
     {

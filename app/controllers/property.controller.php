@@ -62,8 +62,10 @@ class PropertyController
             $idOwner = $property->id_owner;
             //busco el owner por medio del id_owner
             $owner = $this->modelOwner->get($idOwner);
+
+            $owners = $this->modelOwner->getAll();
             // mando la propiedad y el dueño a la vista 
-            return $this->view->showProperty($property, $owner);
+            return $this->view->showProperty($property, $owner, $owners);
         } else {
             return $this->view->showError("La propiedad con el id: " . $id . "no existe");
         }
@@ -97,8 +99,6 @@ class PropertyController
         }
 
         // tomar datos del form ingresados por el usuario y validarlos , funcion importante del contoller 
-
-
 
         // VALIDACIONES TYPE
         // Verificar si el campo existe, no es null, ni vacío
@@ -262,7 +262,6 @@ class PropertyController
         $errors = [];
 
         // tomar datos del form ingresados por el usuario y validarlos , funcion importante del contoller 
-
       
         // VALIDACIONES TYPE
         // Verificar si el campo existe, no es null, ni vacío

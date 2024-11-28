@@ -13,7 +13,7 @@ class  PropertyView
         require_once "./templates/list_properties.phtml";//lista todas las propiedades y les pasa los oenwer y las propiedades qe recibe del controller
     }
     
-    public function showProperty($property, $owner)
+    public function showProperty($property, $owner, $owners)
     {
         require_once "./templates/list_property.phtml";//lista una 
     }

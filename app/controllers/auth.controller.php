@@ -60,7 +60,7 @@ class AuthController
                 // Guardo en la sesión el ID del usuario y otros datos de el
                 session_start();
                 $_SESSION['id_user'] = $userID;
-                $_SESSION['username'] = $user;
+                $_SESSION['username'] = $user->username;
                 $_SESSION['LAST_ACTIVITY'] = time();
                 // Redirijo al home
                 header('Location: ' . BASE_URL); //no se pone barra, lo pone el explode
@@ -133,11 +133,11 @@ class AuthController
                 header('Location: ' . BASE_URL);
                 exit();
             } else { //el usuario no existe en la DB
-                return $this->view->showLogin(error: 'Credenciales incorrectas');
+                return $this->view->showLogin( 'Credenciales incorrectas');
             }
         } else {
             // agregar btn a registrar 
-            return $this->view->showLogin(error: 'usuario sin registrar');
+            return $this->view->showLogin( 'usuario sin registrar');
         }
     }
 
